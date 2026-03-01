@@ -1,0 +1,74 @@
+name: sdu_sna
+description: 山东大学网管会一站式服务应用
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+# 仅支持 Android 和 Windows 平台
+platforms:
+  android:
+  windows:
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # UI组件
+  cupertino_icons: ^1.0.6
+  
+  # 网络请求
+  dio: ^5.4.0
+  dio_cookie_manager: ^3.1.0
+  cookie_jar: ^4.0.8
+  
+  # 状态管理
+  provider: ^6.1.0
+  hooks_riverpod: ^2.4.0
+  flutter_hooks: ^0.20.0
+  
+  # 本地存储
+  shared_preferences: ^2.2.0
+  flutter_secure_storage: ^9.0.0
+  path_provider: ^2.1.0
+  
+  # UI增强
+  cached_network_image: ^3.3.0
+  qr_flutter: ^4.1.0
+  photo_view: ^0.14.0
+  pull_to_refresh: ^2.0.0
+  
+  # 工具库
+  intl: ^0.20.2
+  url_launcher: ^6.2.0
+  share_plus: ^7.2.0
+  permission_handler: ^11.0.0
+  device_info_plus: ^9.1.0
+  package_info_plus: ^5.0.0
+  
+  # 其他
+  flutter_svg: ^2.0.9
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.0
+  riverpod_generator: ^2.3.0
+  riverpod_lint: ^2.3.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+  
+  # fonts:
+  #   - family: SDUIcon
+  #     fonts:
+  #       - asset: assets/fonts/sdu_icon.ttf
