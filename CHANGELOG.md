@@ -9,11 +9,12 @@
 
 ### 进行中
 
-- Phase 2: MVP核心功能开发（25% 完成）
-  - ✅ feature_auth 基础 UI
-  - 🚧 feature_auth 完整认证流程
-  - 📋 主应用框架
-  - 📋 feature_dashboard
+- Phase 2: MVP核心功能开发（75% 完成）
+  - ✅ feature_auth 认证模块
+  - ✅ 主应用框架（启动页、底部导航）
+  - ✅ Dashboard 首页
+  - 📋 feature_network_service（下一步）
+  - 📋 feature_profile（下一步）
 
 ### 已完成
 
@@ -24,9 +25,31 @@
 
 ### 新增
 
+#### 主应用框架 ✅
+
+**启动页（SplashPage）**
+- 精美的启动动画（淡入+缩放效果）
+- 自动检查登录状态
+- 智能路由跳转
+- 渐变背景设计
+
+**主框架页（MainPage）**
+- 底部导航栏（首页、网络、我的）
+- IndexedStack 页面切换（保持状态）
+- Material Design 3 风格
+- 占位页面（开发中功能）
+
+**Dashboard 首页**
+- 用户信息卡片
+- 快捷功能入口（4个）
+- 公告通知栏
+- 常用服务列表（4个）
+- 下拉刷新支持
+- 集成 Riverpod 状态管理
+
 #### Feature 层包
 
-**feature_auth (v0.1.0) - 认证功能模块** 🚧
+**feature_auth (v0.1.0) - 认证功能模块** ✅
 - ✅ 登录页面 UI
   - 学号/工号输入
   - 密码输入（支持显示/隐藏）
