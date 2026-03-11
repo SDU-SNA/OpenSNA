@@ -1,45 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core_ui/core_ui.dart';
 import '../widgets/login_form.dart';
+import '../providers/auth_provider.dart';
 
 /// 登录页面
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<_LoginFormState>();
-  bool _isLoading = false;
 
   Future<void> _handleLogin() async {
-    setState(() {
-      _isLoading = true;
-    });
+    final formState = _formKey.currentState;
+    if (formState == null) return;
 
     try {
-      // TODO: 实现登录逻辑
-      await Future.delayed(const Duration(seconds: 2));
-      
+      await ref.read(authProvider.notifier).login(
+            username: formState.username,
+            password: formState.password,
+            rememberMe: formState.rememberMe,
+          );
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('登录成功')),
         );
         // TODO: 导航到首页
+        Navigator.pushReplacementNamed(context, '/');
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('登录失败: $e')),
         );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
       }
     }
   }
@@ -62,6 +60,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+    final isLoading = authState.isLoading;
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -104,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                 // 登录表单
                 LoginForm(
                   key: _formKey,
-                  isLoading: _isLoading,
+                  isLoading: isLoading,
                   onLogin: _handleLogin,
                   onForgotPassword: _handleForgotPassword,
                 ),
@@ -132,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                 
                 // 统一身份认证按钮
                 OutlinedButton.icon(
-                  onPressed: _isLoading ? null : () {
+                  onPressed: isLoading ? null : () {
                     // TODO: 实现统一身份认证登录
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('统一身份认证功能开发中')),
@@ -156,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const Text('还没有账号？'),
                     TextButton(
-                      onPressed: _isLoading ? null : () {
+                      onPressed: isLoading ? null : () {
                         // TODO: 导航到注册页面
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('注册功能开发中')),
