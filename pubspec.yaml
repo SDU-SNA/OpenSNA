@@ -47,6 +47,10 @@ dependencies:
       url: https://github.com/h1s97x/PermissionKit.git
       ref: main
 
+  # Feature packages
+  feature_auth:
+    path: packages/features/feature_auth
+
   # UI组件
   cupertino_icons: ^1.0.6
   

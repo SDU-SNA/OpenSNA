@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../features/home/presentation/pages/home_page.dart';
-import '../../features/auth/presentation/pages/login_page.dart';
+import 'package:feature_auth/feature_auth.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 
 /// 应用路由配置
