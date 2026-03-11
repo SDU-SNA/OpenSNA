@@ -1,0 +1,40 @@
+# pubspec_overrides.yaml.example
+# 
+# 本地开发Toolkit包时使用
+# 复制此文件为 pubspec_overrides.yaml 并根据需要修改路径
+# 
+# 使用方法：
+# 1. 复制此文件: cp pubspec_overrides.yaml.example pubspec_overrides.yaml
+# 2. 修改路径指向本地Toolkit包目录
+# 3. 运行: flutter pub get
+# 
+# 注意：pubspec_overrides.yaml 已在 .gitignore 中，不会被提交
+
+dependency_overrides:
+  # 硬件信息检测
+  hardware_info_kit:
+    path: ../HardwareInfoKit
+  
+  # 网络诊断工具
+  network_diagnostic_kit:
+    path: ../NetworkDiagnosticKit
+  
+  # 日志管理
+  log_kit:
+    path: ../LogKit
+  
+  # 崩溃报告
+  crash_reporter_kit:
+    path: ../CrashReporterKit
+  
+  # 系统监控
+  system_monitor_kit:
+    path: ../SystemMonitorKit
+  
+  # 设备安全检测
+  device_security_kit:
+    path: ../DeviceSecurityKit
+  
+  # 权限管理
+  permission_kit:
+    path: ../PermissionKit

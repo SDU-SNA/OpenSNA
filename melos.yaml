@@ -1,0 +1,77 @@
+name: opensna
+repository: https://github.com/SDU-SNA/OpenSNA
+
+packages:
+  - packages/**
+
+command:
+  bootstrap:
+    # 使用 pubspec_overrides.yaml 来链接本地包
+    usePubspecOverrides: true
+    
+  version:
+    # 版本更新时的配置
+    branch: main
+    message: "chore(release): publish packages"
+
+scripts:
+  # 分析所有包的代码
+  analyze:
+    run: melos exec -- flutter analyze
+    description: 运行所有包的代码分析
+    
+  # 运行所有包的测试
+  test:
+    run: melos exec -- flutter test
+    description: 运行所有包的单元测试
+    packageFilters:
+      dirExists: test
+    
+  # 格式化所有代码
+  format:
+    run: melos exec -- dart format lib test
+    description: 格式化所有包的代码
+    
+  # 格式化检查（CI用）
+  format:check:
+    run: melos exec -- dart format --set-exit-if-changed lib test
+    description: 检查代码格式是否符合规范
+    
+  # 清理所有包
+  clean:
+    run: melos exec -- flutter clean
+    description: 清理所有包的构建产物
+    
+  # 获取所有包的依赖
+  get:
+    run: melos exec -- flutter pub get
+    description: 获取所有包的依赖
+    
+  # 升级所有包的依赖
+  upgrade:
+    run: melos exec -- flutter pub upgrade
+    description: 升级所有包的依赖
+    
+  # 只分析core包
+  analyze:core:
+    run: melos exec --scope="core_*" -- flutter analyze
+    description: 只分析core包
+    
+  # 只测试feature包
+  test:features:
+    run: melos exec --scope="feature_*" -- flutter test
+    description: 只测试feature包
+    packageFilters:
+      dirExists: test
+      
+  # 检查依赖是否有更新
+  outdated:
+    run: melos exec -- flutter pub outdated
+    description: 检查所有包的依赖更新
+    
+  # 生成代码（Riverpod等）
+  generate:
+    run: melos exec -- flutter pub run build_runner build --delete-conflicting-outputs
+    description: 运行代码生成
+    packageFilters:
+      dependsOn: "build_runner"
