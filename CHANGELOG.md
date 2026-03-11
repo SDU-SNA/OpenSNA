@@ -9,47 +9,99 @@
 
 ### 进行中
 
-- Phase 2: MVP核心功能开发（75% 完成）
-  - ✅ feature_auth 认证模块
-  - ✅ 主应用框架（启动页、底部导航）
-  - ✅ Dashboard 首页
-  - 📋 feature_network_service（下一步）
-  - 📋 feature_profile（下一步）
+- Phase 3: v1.0 功能扩展（准备开始）
 
 ### 已完成
 
 - ✅ Phase 1: Core层基础包开发（100% 完成）
+- ✅ Phase 2: MVP核心功能开发（100% 完成）✨
 - ✅ Toolkit包集成（log_kit, crash_reporter_kit, permission_kit）
 
-## [0.2.0] - 2026-03-11 (进行中)
+## [0.2.0] - 2026-03-11
 
 ### 新增
 
-#### 主应用框架 ✅
+#### MVP 核心功能 ✅✨
 
-**启动页（SplashPage）**
+Phase 2 完成！MVP 已具备基本可用功能。
+
+**主应用框架** ✅
+
+启动页（SplashPage）：
 - 精美的启动动画（淡入+缩放效果）
 - 自动检查登录状态
 - 智能路由跳转
 - 渐变背景设计
 
-**主框架页（MainPage）**
+主框架页（MainPage）：
 - 底部导航栏（首页、网络、我的）
 - IndexedStack 页面切换（保持状态）
 - Material Design 3 风格
-- 占位页面（开发中功能）
 
-**Dashboard 首页**
+Dashboard 首页：
 - 用户信息卡片
-- 快捷功能入口（4个）
+- 快捷功能入口（网络账号、在线设备、网络测速、故障报修）
 - 公告通知栏
-- 常用服务列表（4个）
+- 常用服务列表（课程表、成绩查询、教室查询、图书馆）
 - 下拉刷新支持
 - 集成 Riverpod 状态管理
 
-#### Feature 层包
+**Feature 层包**
 
-**feature_auth (v0.1.0) - 认证功能模块** ✅
+feature_auth (v0.1.0) - 认证功能模块 ✅
+- 完整的 Clean Architecture 架构
+  - Data 层：LoginRequest/LoginResponse、AuthApi、AuthRepositoryImpl
+  - Domain 层：LoginUseCase、LogoutUseCase
+  - Presentation 层：LoginPage、LoginForm、AuthProvider
+- 登录页面 UI
+  - 学号/工号输入
+  - 密码输入（支持显示/隐藏）
+  - 记住密码选项
+  - 忘记密码功能
+  - 统一身份认证入口
+  - 注册入口
+  - 加载状态和错误提示
+- 完整认证流程
+  - Token 自动管理
+  - 自动登录状态检查
+  - 统一的异常处理
+  - Riverpod 状态管理
+- 集成 Core 层包（network, storage, auth, ui, router, utils）
+
+feature_profile (v0.1.0) - 个人中心模块 ✅
+- 用户信息头部
+  - 用户头像（支持网络图片）
+  - 用户名、邮箱、手机号显示
+  - 未登录状态提示
+- 账号管理（个人资料、修改密码、账号安全）
+- 应用设置（消息通知、语言设置、主题设置）
+- 其他功能（帮助与反馈、关于我们）
+- 退出登录功能
+  - 确认对话框
+  - 集成 Riverpod 状态管理
+  - 自动跳转
+- 响应式 UI 设计
+- Material Design 3 风格
+
+### 技术特性
+
+- ✅ Clean Architecture 分层架构
+- ✅ Riverpod 状态管理
+- ✅ Material Design 3 设计
+- ✅ 响应式 UI
+- ✅ 统一的视觉风格
+- ✅ 完整的应用导航流程
+- ✅ Token 自动管理
+- ✅ 自动登录状态检查
+
+### 开发统计
+
+- **Phase 2 用时**: 1天
+- **完成功能**: 认证模块、主应用框架、Dashboard、个人中心
+- **代码质量**: 遵循 Clean Architecture 和最佳实践
+- **可用性**: MVP 已具备基本可用功能
+
+## [0.1.0] - 2026-03-11
 - ✅ 登录页面 UI
   - 学号/工号输入
   - 密码输入（支持显示/隐藏）
