@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../home/presentation/pages/home_page.dart';
+import '../profile/presentation/pages/profile_page.dart';
 // TODO: 导入其他页面
 // import '../network/presentation/pages/network_page.dart';
-// import '../profile/presentation/pages/profile_page.dart';
 
 /// 主框架页面（带底部导航栏）
 class MainPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pages = [
     const HomePage(),
     const _PlaceholderPage(title: '网络服务', icon: Icons.wifi),
-    const _PlaceholderPage(title: '个人中心', icon: Icons.person),
+    const ProfilePage(),
   ];
 
   void _onTabTapped(int index) {
