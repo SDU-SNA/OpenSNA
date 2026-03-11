@@ -9,12 +9,41 @@
 
 ### 进行中
 
-- Phase 2: MVP核心功能开发（准备开始）
+- Phase 2: MVP核心功能开发（25% 完成）
+  - ✅ feature_auth 基础 UI
+  - 🚧 feature_auth 完整认证流程
+  - 📋 主应用框架
+  - 📋 feature_dashboard
 
 ### 已完成
 
 - ✅ Phase 1: Core层基础包开发（100% 完成）
 - ✅ Toolkit包集成（log_kit, crash_reporter_kit, permission_kit）
+
+## [0.2.0] - 2026-03-11 (进行中)
+
+### 新增
+
+#### Feature 层包
+
+**feature_auth (v0.1.0) - 认证功能模块** 🚧
+- ✅ 登录页面 UI
+  - 学号/工号输入
+  - 密码输入（支持显示/隐藏）
+  - 记住密码选项
+  - 忘记密码功能
+  - 统一身份认证入口
+  - 注册入口
+  - 加载状态和错误提示
+- ✅ 登录表单组件（可复用）
+- ✅ Clean Architecture 分层架构
+- ✅ 集成 Core 层包
+- 🚧 完整认证流程（开发中）
+  - Repository 实现
+  - UseCase 实现
+  - 状态管理（Riverpod）
+  - Token 管理
+  - 自动登录
 
 ## [0.1.0] - 2026-03-11
 
