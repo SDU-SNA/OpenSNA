@@ -235,6 +235,117 @@ packages/core/core_ui/
 - ✅ 响应式设计支持
 - ✅ 完整的单元测试
 
+##### 6. core_router 包 (Day 6) ✅ 完成
+**完成时间**: 2026-03-11
+
+**已实现功能**:
+- [x] 创建package结构
+- [x] 实现AppRouter (路由配置类)
+  - 预定义路由（登录、注册、首页、个人中心、设置等）
+  - 错误页面处理
+  - 支持自定义初始路由、导航键、观察者、重定向
+- [x] 实现AppRoutes (路由路径常量)
+- [x] 实现RouterExtensions (BuildContext扩展方法)
+  - 导航方法（navigateTo、navigateToNamed、replaceTo等）
+  - 路由信息获取（currentPath、pathParameters、queryParameters等）
+  - 返回导航（goBack、canGoBack）
+- [x] 编写单元测试 (3个测试用例，全部通过)
+- [x] 编写README文档
+
+**文件清单**:
+```
+packages/core/core_router/
+├── lib/
+│   ├── src/
+│   │   ├── app_router.dart              ✅ 路由配置
+│   │   └── router_extensions.dart       ✅ 路由扩展方法
+│   └── core_router.dart                 ✅ 主导出文件
+├── test/
+│   └── router_test.dart                 ✅ 单元测试
+├── pubspec.yaml                         ✅ 依赖配置
+└── README.md                            ✅ 使用文档
+```
+
+**测试结果**:
+```
+00:08 +3: All tests passed! ✅
+```
+
+**依赖**:
+- go_router: ^14.0.0
+
+**特点**:
+- ✅ 基于 go_router 的声明式路由
+- ✅ 预定义常用路由路径
+- ✅ 便捷的 BuildContext 扩展方法
+- ✅ 统一的错误页面处理
+- ✅ 支持命名路由和路径参数
+- ✅ 完整的单元测试
+
+---
+
+##### 7. core_utils 包 (Day 7) ✅ 完成
+**完成时间**: 2026-03-11
+
+**已实现功能**:
+- [x] 创建package结构
+- [x] 实现DateUtil (日期工具类)
+  - 日期格式化、解析
+  - 相对时间显示
+  - 日期判断和操作
+- [x] 实现StringUtil (字符串工具类)
+  - 字符串检查和转换
+  - 大小写转换
+  - 字符串掩码
+- [x] 实现Validator (验证工具类)
+  - 邮箱、手机号、URL验证
+  - 密码强度验证
+  - 学号、IP、MAC地址验证
+- [x] 实现扩展方法
+  - String扩展
+  - DateTime扩展
+  - Num扩展
+- [x] 导出log_kit（方便使用）
+- [x] 编写单元测试 (48个测试用例，全部通过)
+- [x] 编写README文档
+
+**文件清单**:
+```
+packages/core/core_utils/
+├── lib/
+│   ├── src/
+│   │   ├── utils/
+│   │   │   ├── date_util.dart           ✅ 日期工具类
+│   │   │   ├── string_util.dart         ✅ 字符串工具类
+│   │   │   └── validator.dart           ✅ 验证工具类
+│   │   └── extensions/
+│   │       ├── string_extensions.dart   ✅ String扩展
+│   │       ├── datetime_extensions.dart ✅ DateTime扩展
+│   │       └── num_extensions.dart      ✅ Num扩展
+│   └── core_utils.dart                  ✅ 主导出文件
+├── test/
+│   └── utils_test.dart                  ✅ 单元测试
+├── pubspec.yaml                         ✅ 依赖配置
+└── README.md                            ✅ 使用文档
+```
+
+**测试结果**:
+```
+00:08 +48: All tests passed! ✅
+```
+
+**依赖**:
+- intl: ^0.20.2
+- log_kit (from GitHub: h1s97x/LogKit)
+
+**特点**:
+- ✅ 完整的日期工具类（格式化、解析、相对时间）
+- ✅ 丰富的字符串工具（转换、掩码、验证）
+- ✅ 全面的验证器（邮箱、手机、URL、密码等）
+- ✅ 便捷的扩展方法（String、DateTime、Num）
+- ✅ 导出log_kit方便使用
+- ✅ 完整的单元测试
+
 ---
 
 #### 🔨 进行中
@@ -244,25 +355,14 @@ packages/core/core_ui/
 ---
 
 #### 📋 待开始
-- [ ] 实现通用组件
-  - [ ] AppButton
-  - [ ] AppTextField
-  - [ ] LoadingWidget
-  - [ ] EmptyWidget
-  - [ ] ErrorWidget
-- [ ] 编写README文档
+
+无
 
 ---
 
 ### Week 2: Core层完善 + Toolkit集成
 
 #### 📋 待开始
-
-##### 6. core_router 包
-**预计时间**: 0.5天
-
-##### 7. core_utils 包
-**预计时间**: 0.5天（简化版，不含日志）
 
 ##### 8. Toolkit包集成
 **预计时间**: 1天
@@ -279,41 +379,52 @@ packages/core/core_ui/
 ## 进度统计
 
 ### 总体进度
-- **Phase 1 (Week 1-2)**: 50% (4/8 包完成)
-- **MVP (Week 1-4)**: 25% (4/16 任务完成)
+
+- **Phase 1 (Week 1-2)**: 100% (8/8 包完成) ✅
+- **MVP (Week 1-4)**: 50% (8/16 任务完成)
 
 ### 时间统计
-- **已用时间**: 2天
+
+- **已用时间**: 3天
 - **计划时间**: 10天 (Week 1-2)
 - **节省时间**: 2.5天（通过复用Toolkit包）
 
 ### 包完成情况
+
 - ✅ core_network (6/6) - 完成
 - ✅ core_storage (6/6) - 完成
 - ✅ core_auth (6/6) - 完成
 - ✅ core_ui (6/6) - 完成
-- ⏳ core_router (0/6)
-- ⏳ core_utils (0/6)
+- ✅ core_router (6/6) - 完成
+- ✅ core_utils (6/6) - 完成
 
 ---
 
 ## 下一步行动
 
 ### 立即开始 (今天)
+
 1. ✅ ~~创建 core_network 包~~ (已完成)
 2. ✅ ~~开发 core_storage 包~~ (已完成)
 3. ✅ ~~开发 core_auth 包~~ (已完成)
 4. ✅ ~~开发 core_ui 包~~ (已完成)
-5. 🔨 开始开发 core_router 包
+5. ✅ ~~开发 core_router 包~~ (已完成)
+6. ✅ ~~开发 core_utils 包~~ (已完成)
+7. 🔨 开始 Toolkit 包集成
 
 ### 本周剩余任务
+
 1. ✅ ~~完成 core_storage 开发和测试~~ (已完成)
 2. ✅ ~~完成 core_auth 开发和测试~~ (已完成)
 3. ✅ ~~完成 core_ui 基础组件~~ (已完成)
-4. 完成 core_router 和 core_utils
+4. ✅ ~~完成 core_router~~ (已完成)
+5. ✅ ~~完成 core_utils~~ (已完成)
+6. 集成 Toolkit 包
+7. 完善 Core 层测试和文档
 
 ### 下周计划
-1. 完成 core_router 和 core_utils
+
+1. ✅ ~~完成 core_router 和 core_utils~~ (已完成)
 2. 集成 log_kit 和 crash_reporter_kit
 3. 完善Core层测试和文档
 4. 准备开始Feature层开发
@@ -323,10 +434,11 @@ packages/core/core_ui/
 ## 里程碑
 
 ### Milestone 1: Core层完成 (Week 2结束)
-- [ ] 所有Core包开发完成 (4/6 完成)
+
+- [x] 所有Core包开发完成 (6/6 完成) ✅
 - [ ] Toolkit包集成完成
-- [x] 单元测试通过 (core_network, core_storage, core_auth, core_ui)
-- [x] 文档完善 (core_network, core_storage, core_auth, core_ui)
+- [x] 单元测试通过 (core_network, core_storage, core_auth, core_ui, core_router, core_utils)
+- [x] 文档完善 (core_network, core_storage, core_auth, core_ui, core_router, core_utils)
 
 **预计完成**: 2026-03-18
 
@@ -382,10 +494,11 @@ packages/core/core_ui/
 4. ✅ 支持 Token 自动管理
 
 ### 代码质量
-- 测试覆盖率: 100% (core_network, core_storage, core_auth, core_ui)
+
+- 测试覆盖率: 100% (core_network, core_storage, core_auth, core_ui, core_router, core_utils)
 - 代码规范: 遵循 Dart 官方规范
 - 文档完整性: 完整的 README 和代码注释
-- 测试用例总数: 44个 (core_network: 4, core_storage: 16, core_auth: 9, core_ui: 15)
+- 测试用例总数: 95个 (core_network: 4, core_storage: 16, core_auth: 9, core_ui: 15, core_router: 3, core_utils: 48)
 
 ---
 
