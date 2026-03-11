@@ -9,12 +9,42 @@
 
 ### 进行中
 
-- Phase 1: Core层基础包开发（100% 完成）✅
-- Phase 2: Toolkit包集成（准备开始）
+- Phase 2: MVP核心功能开发（准备开始）
+
+### 已完成
+
+- ✅ Phase 1: Core层基础包开发（100% 完成）
+- ✅ Toolkit包集成（log_kit, crash_reporter_kit, permission_kit）
 
 ## [0.1.0] - 2026-03-11
 
 ### 新增
+
+#### Toolkit 集成
+
+**ToolkitInitializer 服务**
+- 统一的 Toolkit 包初始化入口
+- 集成 log_kit（日志系统）
+  - 多级别日志（Debug、Info、Warning、Error）
+  - 文件日志（自动轮转）
+  - 远程日志上报
+- 集成 crash_reporter_kit（崩溃收集）
+  - 自动捕获未处理的异常
+  - 崩溃信息收集和上报
+  - Zone 异常捕获机制
+- 集成 permission_kit（权限管理）
+  - 统一的权限请求接口
+  - 权限状态检查
+- 便捷方法封装
+  - `ToolkitInitializer.log()` - 记录日志
+  - `ToolkitInitializer.logError()` - 记录错误
+  - `ToolkitInitializer.reportCrash()` - 上报崩溃
+- 完整的集成文档和最佳实践
+
+**主应用更新**
+- 更新 main.dart 添加 Toolkit 初始化
+- 添加 Zone 异常捕获
+- 优雅的错误处理（初始化失败不影响应用启动）
 
 #### Core 层包（全部完成）✅
 
