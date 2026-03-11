@@ -1,0 +1,21 @@
+name: core_utils
+description: Core utilities package providing common utility classes and extension methods
+version: 0.1.0
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.20.2
+  log_kit:
+    git:
+      url: https://github.com/h1s97x/LogKit.git
+      ref: main
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
