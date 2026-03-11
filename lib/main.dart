@@ -95,7 +95,7 @@ class SDUSNAApp extends StatelessWidget {
             Locale('en', 'US'),
           ],
           routes: AppRoutes.routes,
-          initialRoute: AppRoutes.home,
+          initialRoute: AppRoutes.splash,
         );
       },
     );

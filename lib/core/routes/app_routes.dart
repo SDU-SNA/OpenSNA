@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../features/splash/splash_page.dart';
+import '../../features/main/main_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import 'package:feature_auth/feature_auth.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 
 /// 应用路由配置
 class AppRoutes {
-  static const String home = '/';
+  static const String splash = '/';
+  static const String home = '/home';
   static const String login = '/login';
   static const String settings = '/settings';
   
@@ -19,7 +22,8 @@ class AppRoutes {
   
   static Map<String, WidgetBuilder> get routes {
     return {
-      home: (context) => const HomePage(),
+      splash: (context) => const SplashPage(),
+      home: (context) => const MainPage(),
       login: (context) => const LoginPage(),
       settings: (context) => const SettingsPage(),
     };
