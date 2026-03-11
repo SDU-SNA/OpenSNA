@@ -118,6 +118,65 @@ packages/core/core_storage/
 - ✅ 支持多种数据类型（String、Int、Double、Bool、List）
 - ✅ 完整的单元测试
 
+##### 4. core_auth 包 (Day 4) ✅ 完成
+**完成时间**: 2026-03-11
+
+**已实现功能**:
+- [x] 创建package结构
+- [x] 实现AuthService (认证服务)
+  - 登录/注册/登出
+  - Token 刷新
+  - 获取/更新用户信息
+  - 修改/重置密码
+- [x] 实现TokenManager (Token 管理器)
+  - Token 保存/获取/删除
+  - Token 有效性检查
+  - JWT Token 解码
+- [x] 实现数据模型
+  - User: 用户模型
+  - AuthToken: 认证令牌模型
+  - AuthState: 认证状态模型
+- [x] 编写单元测试 (9个测试用例，全部通过)
+- [x] 编写README文档
+
+**文件清单**:
+```
+packages/core/core_auth/
+├── lib/
+│   ├── src/
+│   │   ├── auth_service.dart            ✅ 认证服务
+│   │   ├── token_manager.dart           ✅ Token 管理器
+│   │   └── models/
+│   │       ├── user.dart                ✅ 用户模型
+│   │       ├── auth_token.dart          ✅ 认证令牌模型
+│   │       └── auth_state.dart          ✅ 认证状态模型
+│   └── core_auth.dart                   ✅ 主导出文件
+├── test/
+│   └── auth_service_test.dart           ✅ 单元测试
+├── pubspec.yaml                         ✅ 依赖配置
+└── README.md                            ✅ 使用文档
+```
+
+**测试结果**:
+```
+00:01 +9: All tests passed! ✅
+```
+
+**依赖**:
+- core_network: 网络请求
+- core_storage: 数据存储
+- jwt_decoder: ^2.0.1
+- flutter_riverpod: ^2.4.0
+
+**特点**:
+- ✅ 完整的用户认证流程
+- ✅ Token 自动管理和刷新
+- ✅ 安全存储（Token 加密存储）
+- ✅ 用户信息缓存
+- ✅ JWT Token 解码支持
+- ✅ 认证状态管理
+- ✅ 完整的单元测试
+
 ---
 
 #### 🔨 进行中
@@ -127,18 +186,6 @@ packages/core/core_storage/
 ---
 
 #### 📋 待开始
-
-##### 4. core_auth 包 (Day 4)
-**预计时间**: 1.5天
-
-**计划功能**:
-- [ ] 创建package结构
-- [ ] 实现AuthService
-- [ ] 实现TokenManager
-- [ ] 实现登录/登出逻辑
-- [ ] 实现Token刷新机制
-- [ ] 编写单元测试
-- [ ] 编写README文档
 
 ##### 5. core_ui 包 (Day 5)
 **预计时间**: 1天
@@ -183,18 +230,18 @@ packages/core/core_storage/
 ## 进度统计
 
 ### 总体进度
-- **Phase 1 (Week 1-2)**: 25% (2/8 包完成)
-- **MVP (Week 1-4)**: 12.5% (2/16 任务完成)
+- **Phase 1 (Week 1-2)**: 37.5% (3/8 包完成)
+- **MVP (Week 1-4)**: 18.75% (3/16 任务完成)
 
 ### 时间统计
-- **已用时间**: 1天
+- **已用时间**: 1.5天
 - **计划时间**: 10天 (Week 1-2)
 - **节省时间**: 2.5天（通过复用Toolkit包）
 
 ### 包完成情况
 - ✅ core_network (6/6) - 完成
 - ✅ core_storage (6/6) - 完成
-- ⏳ core_auth (0/6)
+- ✅ core_auth (6/6) - 完成
 - ⏳ core_ui (0/6)
 - ⏳ core_router (0/6)
 - ⏳ core_utils (0/6)
@@ -206,11 +253,12 @@ packages/core/core_storage/
 ### 立即开始 (今天)
 1. ✅ ~~创建 core_network 包~~ (已完成)
 2. ✅ ~~开发 core_storage 包~~ (已完成)
-3. 🔨 开始开发 core_auth 包
+3. ✅ ~~开发 core_auth 包~~ (已完成)
+4. 🔨 开始开发 core_ui 包
 
 ### 本周剩余任务
 1. ✅ ~~完成 core_storage 开发和测试~~ (已完成)
-2. 完成 core_auth 开发和测试
+2. ✅ ~~完成 core_auth 开发和测试~~ (已完成)
 3. 完成 core_ui 基础组件
 
 ### 下周计划
@@ -224,10 +272,10 @@ packages/core/core_storage/
 ## 里程碑
 
 ### Milestone 1: Core层完成 (Week 2结束)
-- [ ] 所有Core包开发完成 (2/6 完成)
+- [ ] 所有Core包开发完成 (3/6 完成)
 - [ ] Toolkit包集成完成
-- [x] 单元测试通过 (core_network, core_storage)
-- [x] 文档完善 (core_network, core_storage)
+- [x] 单元测试通过 (core_network, core_storage, core_auth)
+- [x] 文档完善 (core_network, core_storage, core_auth)
 
 **预计完成**: 2026-03-18
 
@@ -250,6 +298,8 @@ packages/core/core_storage/
 1. ✅ log_kit 集成成功，避免重复开发日志功能
 2. ✅ core_network 单元测试全部通过 (4个测试用例)
 3. ✅ core_storage 单元测试全部通过 (16个测试用例)
+4. ✅ core_auth 单元测试全部通过 (9个测试用例)
+5. ✅ ApiException 构造函数修复（使用命名参数）
 
 ### 潜在风险
 1. ⚠️ 后端API接口尚未就绪，可能需要Mock数据开发
@@ -279,10 +329,10 @@ packages/core/core_storage/
 4. ✅ 支持 Token 自动管理
 
 ### 代码质量
-- 测试覆盖率: 100% (core_network, core_storage)
+- 测试覆盖率: 100% (core_network, core_storage, core_auth)
 - 代码规范: 遵循 Dart 官方规范
 - 文档完整性: 完整的 README 和代码注释
-- 测试用例总数: 20个 (core_network: 4, core_storage: 16)
+- 测试用例总数: 29个 (core_network: 4, core_storage: 16, core_auth: 9)
 
 ---
 
