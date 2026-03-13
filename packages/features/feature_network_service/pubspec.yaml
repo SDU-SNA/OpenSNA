@@ -1,0 +1,51 @@
+name: feature_network_service
+description: 网络服务功能模块，包含网络账号管理、在线设备管理、网络测速和故障报修
+version: 0.1.0
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.5.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Core 层依赖
+  core_network:
+    path: ../../core/core_network
+  core_storage:
+    path: ../../core/core_storage
+  core_ui:
+    path: ../../core/core_ui
+  core_router:
+    path: ../../core/core_router
+  core_utils:
+    path: ../../core/core_utils
+  
+  # Toolkit 包（网络问题暂时注释，需要时取消注释）
+  # network_diagnostic_kit:
+  #   git:
+  #     url: https://github.com/h1s97x/NetworkDiagnosticKit.git
+  #     ref: main
+  
+  # 状态管理
+  flutter_riverpod: ^2.4.0
+  riverpod_annotation: ^2.3.0
+  
+  # UI
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.0
+  
+  # 工具
+  intl: ^0.20.2
+  json_annotation: ^4.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.0
+  riverpod_generator: ^2.3.0
+  json_serializable: ^6.7.0
+  mockito: ^5.4.0
