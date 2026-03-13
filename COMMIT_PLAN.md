@@ -145,7 +145,7 @@ git commit -m "feat(core): 实现 core_storage 存储层包
 - shared_preferences: ^2.2.0
 - flutter_secure_storage: ^9.0.0
 - path_provider: ^2.1.0
-- json_annotation: ^4.8.0"
+- json_annotation: ^4.9.0"
 ```
 
 ### 第四阶段：开发进度文档（1 个提交）

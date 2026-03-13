@@ -109,7 +109,7 @@ packages/core/core_storage/
 - shared_preferences: ^2.2.0
 - flutter_secure_storage: ^9.0.0
 - path_provider: ^2.1.0
-- json_annotation: ^4.8.0
+- json_annotation: ^4.9.0
 
 **特点**:
 - ✅ 统一的本地存储接口
@@ -559,3 +559,218 @@ docs/
 **最后更新**: 2026-03-11  
 **下次更新**: 2026-03-12
 
+
+
+---
+
+## Phase 3: v1.0 功能扩展 (Week 5-8) 🔨 进行中
+
+**开始时间**: 2026-03-11
+
+### Week 5-6: 网络工具 + 校园资讯
+
+#### 🔨 进行中
+
+##### 1. feature_network_service 包开发 (Day 1) 🔨 进行中
+**开始时间**: 2026-03-11
+
+**已实现功能**:
+- [x] 创建 feature_network_service 包结构
+- [x] 配置 pubspec.yaml 和依赖
+- [x] 编写 README.md 文档
+- [x] 创建数据模型（4个）
+  - [x] NetworkAccount（网络账号信息）
+  - [x] DeviceInfo（在线设备信息）
+  - [x] SpeedTestResult（网络测速结果）
+  - [x] RepairRecord（故障报修记录）
+- [x] 创建 NetworkServiceApi 数据源（20+ 个 API 方法）
+- [x] 创建 NetworkRepository 接口
+- [x] 创建 NetworkRepositoryImpl 实现
+- [x] 创建 NetworkProviders 状态管理（10+ 个 Provider）
+- [x] 创建 SpeedTestPage 网络测速页面
+- [x] 运行代码生成（JSON 序列化）
+
+**文件清单**:
+```
+packages/features/feature_network_service/
+├── lib/
+│   ├── src/
+│   │   ├── data/
+│   │   │   ├── models/
+│   │   │   │   ├── network_account.dart        ✅ 网络账号模型
+│   │   │   │   ├── device_info.dart            ✅ 设备信息模型
+│   │   │   │   ├── speed_test_result.dart      ✅ 测速结果模型
+│   │   │   │   └── repair_record.dart          ✅ 报修记录模型
+│   │   │   ├── datasources/
+│   │   │   │   └── network_service_api.dart    ✅ API 数据源
+│   │   │   └── repositories/
+│   │   │       └── network_repository_impl.dart ✅ Repository 实现
+│   │   ├── domain/
+│   │   │   └── repositories/
+│   │   │       └── network_repository.dart     ✅ Repository 接口
+│   │   └── presentation/
+│   │       ├── providers/
+│   │       │   └── network_providers.dart      ✅ 状态管理
+│   │       └── pages/
+│   │           └── speed_test_page.dart        ✅ 网络测速页面
+│   └── feature_network_service.dart            ✅ 主导出文件
+├── pubspec.yaml                                ✅ 依赖配置
+└── README.md                                   ✅ 使用文档
+```
+
+**技术特性**:
+- ✅ Clean Architecture 分层架构
+- ✅ Riverpod 状态管理
+- ✅ Material Design 3 设计
+- ✅ 完整的数据模型（4个）
+- ✅ 统一的 API 接口（20+ 个方法）
+- ✅ 响应式 UI 设计
+- ✅ 质量评级算法
+- ✅ JSON 序列化支持
+
+**待完成功能**:
+- [ ] NetworkAccountPage（网络账号管理页面）
+- [ ] DeviceManagePage（在线设备管理页面）
+- [ ] SpeedTestHistoryPage（测速历史页面）
+- [ ] RepairPage（故障报修页面）
+- [ ] 集成 network_diagnostic_kit（网络问题暂时注释）
+- [ ] 单元测试
+- [ ] Widget 测试
+
+**注意事项**:
+- network_diagnostic_kit 依赖因网络问题暂时注释
+- 需要时取消注释即可启用
+
+---
+
+#### 📋 待开始
+
+##### 2. 集成 network_diagnostic_kit
+**预计时间**: 2天
+
+**任务清单**:
+- [ ] 解决网络问题，安装 network_diagnostic_kit
+- [ ] 在 SpeedTestPage 中集成 network_diagnostic_kit
+- [ ] 实现网络诊断功能
+- [ ] 实现网络测速功能（使用 Toolkit 包）
+- [ ] 测试集成效果
+- [ ] 编写集成文档
+
+##### 3. 开发网络故障报修
+**预计时间**: 2天
+
+**任务清单**:
+- [ ] 实现报修表单页面
+- [ ] 实现图片上传功能
+- [ ] 实现报修记录查询
+- [ ] 实现维修进度跟踪
+- [ ] 实现评价功能
+- [ ] 编写文档
+
+##### 4. 开发 feature_campus_info
+**预计时间**: 2天
+
+**任务清单**:
+- [ ] 创建 feature_campus_info 包
+- [ ] 实现公告列表页面
+- [ ] 实现公告详情页面
+- [ ] 实现文章列表页面
+- [ ] 实现文章详情页面
+- [ ] 实现搜索功能
+- [ ] 实现收藏功能
+- [ ] 编写文档
+
+---
+
+### Week 7-8: 学习工具 + 便民服务
+
+#### 📋 待开始
+
+##### 5. 开发 feature_academic
+**预计时间**: 3天
+
+**任务清单**:
+- [ ] 创建 feature_academic 包
+- [ ] 实现课程表页面（周视图、日视图）
+- [ ] 实现成绩查询页面
+- [ ] 实现考试安排页面
+- [ ] 编写文档
+
+##### 6. 开发 feature_convenience
+**预计时间**: 3天
+
+**任务清单**:
+- [ ] 创建 feature_convenience 包
+- [ ] 实现教室查询页面
+- [ ] 实现图书馆服务页面
+- [ ] 实现校车服务页面
+- [ ] 实现校园地图页面（可选）
+- [ ] 编写文档
+
+##### 7. v1.0 测试与优化
+**预计时间**: 2天
+
+**任务清单**:
+- [ ] 完整功能测试
+- [ ] 性能优化
+- [ ] UI/UX 优化
+- [ ] Bug 修复
+- [ ] 文档完善
+- [ ] 准备发布
+
+---
+
+## Phase 3 进度统计
+
+### 总体进度
+
+- **Phase 3 (Week 5-8)**: 2% (1/50 任务完成) 🔨
+
+### 时间统计
+
+- **已用时间**: 0.5天
+- **计划时间**: 4周（28天）
+- **实际进度**: 提前/延后 TBD
+
+### 包完成情况
+
+**Feature 层（1/4）🔨**
+- 🔨 feature_network_service (10/50) - 进行中
+- 📋 feature_campus_info (0/20) - 待开始
+- 📋 feature_academic (0/15) - 待开始
+- 📋 feature_convenience (0/15) - 待开始
+
+---
+
+## 下一步行动（Phase 3）
+
+### 立即开始 (今天)
+
+1. ✅ ~~创建 feature_network_service 包~~ (已完成)
+2. ✅ ~~创建数据模型~~ (已完成)
+3. ✅ ~~创建 API 接口~~ (已完成)
+4. ✅ ~~创建 Repository~~ (已完成)
+5. ✅ ~~创建 Provider~~ (已完成)
+6. ✅ ~~创建网络测速页面~~ (已完成)
+7. 🔨 继续开发其他页面
+
+### 本周剩余任务
+
+1. 完成 NetworkAccountPage（网络账号管理）
+2. 完成 DeviceManagePage（在线设备管理）
+3. 完成 RepairPage（故障报修）
+4. 完成 SpeedTestHistoryPage（测速历史）
+5. 集成 network_diagnostic_kit（如果网络问题解决）
+
+### 下周计划
+
+1. 开发 feature_campus_info（校园资讯）
+2. 开发 feature_academic（学习工具）
+3. 开发 feature_convenience（便民服务）
+4. v1.0 测试与优化
+
+---
+
+**Phase 3 开始时间**: 2026-03-11  
+**最后更新**: 2026-03-11  
+**下次更新**: 2026-03-12
