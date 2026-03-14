@@ -28,8 +28,7 @@ class CampusInfoRepositoryImpl implements CampusInfoRepository {
   Future<void> markAsRead(String id) => _api.markAsRead(id);
 
   @override
-  Future<void> favoriteAnnouncement(String id) =>
-      _api.favoriteAnnouncement(id);
+  Future<void> favoriteAnnouncement(String id) => _api.favoriteAnnouncement(id);
 
   @override
   Future<void> unfavoriteAnnouncement(String id) =>

@@ -4,7 +4,6 @@ import 'package:core_ui/core_ui.dart';
 import '../providers/convenience_providers.dart';
 import '../../data/models/bus_route.dart';
 
-/// 校车服务页面
 class BusPage extends ConsumerWidget {
   const BusPage({super.key});
 
@@ -24,13 +23,11 @@ class BusPage extends ConsumerWidget {
       appBar: AppBar(title: const Text('校车服务')),
       body: Column(
         children: [
-          // 类型筛选
           SizedBox(
             height: 48,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               itemCount: _types.length,
               separatorBuilder: (_, __) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
@@ -39,23 +36,18 @@ class BusPage extends ConsumerWidget {
                 return FilterChip(
                   label: Text(t.label),
                   selected: isSelected,
-                  onSelected: (_) =>
-                      ref.read(selectedBusTypeProvider.notifier).state =
-                          t.value,
+                  onSelected: (_) => ref
+                      .read(selectedBusTypeProvider.notifier)
+                      .state = t.value,
                 );
               },
             ),
           ),
-
-          // 班次列表
           Expanded(
             child: routesAsync.when(
               data: (routes) {
-                if (routes.isEmpty) {
-                  return const EmptyWidget(message: '暂无班次信息');
-                }
+                if (routes.isEmpty) return const EmptyWidget(title: '暂无班次信息');
 
-                // 分组：即将发车 vs 其他
                 final soon =
                     routes.where((r) => r.isSoon && !r.isDeparted).toList();
                 final upcoming = routes
@@ -63,8 +55,7 @@ class BusPage extends ConsumerWidget {
                     .toList()
                   ..sort((a, b) => a.minutesUntilDeparture
                       .compareTo(b.minutesUntilDeparture));
-                final departed =
-                    routes.where((r) => r.isDeparted).toList();
+                final departed = routes.where((r) => r.isDeparted).toList();
 
                 return RefreshIndicator(
                   onRefresh: () async =>
@@ -73,8 +64,7 @@ class BusPage extends ConsumerWidget {
                     padding: const EdgeInsets.all(16),
                     children: [
                       if (soon.isNotEmpty) ...[
-                        _SectionLabel(
-                            label: '即将发车', color: Colors.orange),
+                        _SectionLabel(label: '即将发车', color: Colors.orange),
                         ...soon.map((r) => _BusCard(route: r)),
                         const SizedBox(height: 8),
                       ],
@@ -85,8 +75,8 @@ class BusPage extends ConsumerWidget {
                       ],
                       if (departed.isNotEmpty) ...[
                         _SectionLabel(label: '已发车', color: Colors.grey),
-                        ...departed.map(
-                            (r) => _BusCard(route: r, isDeparted: true)),
+                        ...departed
+                            .map((r) => _BusCard(route: r, isDeparted: true)),
                       ],
                     ],
                   ),
@@ -94,9 +84,8 @@ class BusPage extends ConsumerWidget {
               },
               loading: () => const LoadingWidget(),
               error: (error, _) => AppErrorWidget(
-                error: error.toString(),
-                onRetry: () =>
-                    ref.invalidate(busRoutesProvider(selectedType)),
+                message: error.toString(),
+                onRetry: () => ref.invalidate(busRoutesProvider(selectedType)),
               ),
             ),
           ),
@@ -109,7 +98,6 @@ class BusPage extends ConsumerWidget {
 class _SectionLabel extends StatelessWidget {
   final String label;
   final Color color;
-
   const _SectionLabel({required this.label, required this.color});
 
   @override
@@ -119,26 +107,23 @@ class _SectionLabel extends StatelessWidget {
       child: Row(
         children: [
           Container(
-              width: 4,
-              height: 16,
-              decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(2))),
+            width: 4,
+            height: 16,
+            decoration: BoxDecoration(
+                color: color, borderRadius: BorderRadius.circular(2)),
+          ),
           const SizedBox(width: 8),
           Text(label,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: color)),
+              style: TextStyle(fontWeight: FontWeight.bold, color: color)),
         ],
       ),
     );
   }
 }
 
-/// 班次卡片
 class _BusCard extends StatelessWidget {
   final BusRoute route;
   final bool isDeparted;
-
   const _BusCard({required this.route, this.isDeparted = false});
 
   @override
@@ -154,7 +139,6 @@ class _BusCard extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           child: Row(
             children: [
-              // 发车时间
               SizedBox(
                 width: 52,
                 child: Column(
@@ -171,25 +155,18 @@ class _BusCard extends StatelessWidget {
                     ),
                     if (!isDeparted && route.isSoon)
                       const Text('即将',
-                          style: TextStyle(
-                              fontSize: 11, color: Colors.orange)),
+                          style: TextStyle(fontSize: 11, color: Colors.orange)),
                   ],
                 ),
               ),
               const SizedBox(width: 12),
-
-              // 路线信息
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      route.routeName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: textColor,
-                      ),
-                    ),
+                    Text(route.routeName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: textColor)),
                     const SizedBox(height: 4),
                     Row(
                       children: [
@@ -199,8 +176,8 @@ class _BusCard extends StatelessWidget {
                         Text(route.departure,
                             style: TextStyle(
                                 fontSize: 12, color: Colors.grey[500])),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Icon(Icons.arrow_forward,
                               size: 12, color: Colors.grey),
                         ),
@@ -225,25 +202,18 @@ class _BusCard extends StatelessWidget {
                             color: Colors.blue.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(3),
                           ),
-                          child: Text(
-                            route.typeText,
-                            style: const TextStyle(
-                                fontSize: 10, color: Colors.blue),
-                          ),
+                          child: Text(route.typeText,
+                              style: const TextStyle(
+                                  fontSize: 10, color: Colors.blue)),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-
-              // 到达时间
-              Text(
-                route.arrivalTime,
-                style: TextStyle(
-                    fontSize: 14,
-                    color: textColor ?? Colors.grey[600]),
-              ),
+              Text(route.arrivalTime,
+                  style: TextStyle(
+                      fontSize: 14, color: textColor ?? Colors.grey[600])),
             ],
           ),
         ),
@@ -281,9 +251,7 @@ class _BusCard extends StatelessWidget {
                         height: 12,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: isFirst || isLast
-                              ? Colors.blue
-                              : Colors.grey,
+                          color: isFirst || isLast ? Colors.blue : Colors.grey,
                           border: Border.all(color: Colors.white, width: 2),
                         ),
                       ),

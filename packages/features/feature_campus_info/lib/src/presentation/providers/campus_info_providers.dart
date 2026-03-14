@@ -2,16 +2,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core_network/core_network.dart';
 import '../../data/datasources/campus_info_api.dart';
 import '../../data/repositories/campus_info_repository_impl.dart';
+import '../../data/repositories/mock_campus_info_repository.dart';
 import '../../domain/repositories/campus_info_repository.dart';
 import '../../data/models/announcement.dart';
 
 // ==================== 依赖注入 ====================
 
+/// Mock 开关 Provider（主应用可通过 ProviderScope overrides 覆盖）
+final campusInfoUseMockProvider = Provider<bool>((ref) => false);
+
 final campusInfoApiProvider = Provider<CampusInfoApi>((ref) {
-  return CampusInfoApi(ApiClient());
+  return CampusInfoApi(ApiClient(config: NetworkConfig.production()));
 });
 
 final campusInfoRepositoryProvider = Provider<CampusInfoRepository>((ref) {
+  if (ref.watch(campusInfoUseMockProvider)) return MockCampusInfoRepository();
   return CampusInfoRepositoryImpl(ref.watch(campusInfoApiProvider));
 });
 
@@ -21,8 +26,9 @@ final campusInfoRepositoryProvider = Provider<CampusInfoRepository>((ref) {
 final selectedCategoryProvider = StateProvider<String?>((ref) => null);
 
 /// 公告列表 Provider
-final announcementsProvider = FutureProvider.family<List<Announcement>,
-    ({String? category, int page})>((ref, params) async {
+final announcementsProvider =
+    FutureProvider.family<List<Announcement>, ({String? category, int page})>(
+        (ref, params) async {
   final repo = ref.watch(campusInfoRepositoryProvider);
   return repo.getAnnouncements(
     category: params.category,

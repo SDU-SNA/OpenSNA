@@ -4,10 +4,8 @@ import 'package:core_ui/core_ui.dart';
 import '../providers/campus_info_providers.dart';
 import '../../data/models/announcement.dart';
 
-/// 公告详情页面
 class AnnouncementDetailPage extends ConsumerStatefulWidget {
   final String id;
-
   const AnnouncementDetailPage({super.key, required this.id});
 
   @override
@@ -20,7 +18,6 @@ class _AnnouncementDetailPageState
   @override
   void initState() {
     super.initState();
-    // 标记为已读
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(campusInfoRepositoryProvider).markAsRead(widget.id);
     });
@@ -29,8 +26,7 @@ class _AnnouncementDetailPageState
   @override
   Widget build(BuildContext context) {
     final detailAsync = ref.watch(announcementDetailProvider(widget.id));
-    final isFavorited =
-        ref.watch(favoriteNotifierProvider).contains(widget.id);
+    final isFavorited = ref.watch(favoriteNotifierProvider).contains(widget.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +55,7 @@ class _AnnouncementDetailPageState
         data: (announcement) => _DetailContent(announcement: announcement),
         loading: () => const LoadingWidget(),
         error: (error, _) => AppErrorWidget(
-          error: error.toString(),
+          message: error.toString(),
           onRetry: () => ref.invalidate(announcementDetailProvider(widget.id)),
         ),
       ),
@@ -69,7 +65,6 @@ class _AnnouncementDetailPageState
 
 class _DetailContent extends StatelessWidget {
   final Announcement announcement;
-
   const _DetailContent({required this.announcement});
 
   Color _getCategoryColor() {
@@ -96,7 +91,6 @@ class _DetailContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 分类标签
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
@@ -106,60 +100,48 @@ class _DetailContent extends StatelessWidget {
             child: Text(
               announcement.categoryText,
               style: TextStyle(
-                color: categoryColor,
-                fontWeight: FontWeight.w600,
-                fontSize: 13,
-              ),
+                  color: categoryColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13),
             ),
           ),
           const SizedBox(height: 14),
-
-          // 标题
           Text(
             announcement.title,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
-
-          // 元信息
           Row(
             children: [
               const Icon(Icons.person_outline, size: 16, color: Colors.grey),
               const SizedBox(width: 4),
-              Text(
-                announcement.author,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.grey),
-              ),
+              Text(announcement.author,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Colors.grey)),
               const SizedBox(width: 16),
               const Icon(Icons.access_time, size: 16, color: Colors.grey),
               const SizedBox(width: 4),
-              Text(
-                _formatDate(announcement.publishedAt),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.grey),
-              ),
+              Text(_formatDate(announcement.publishedAt),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Colors.grey)),
               const SizedBox(width: 16),
               const Icon(Icons.remove_red_eye_outlined,
                   size: 16, color: Colors.grey),
               const SizedBox(width: 4),
-              Text(
-                '${announcement.viewCount}',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.grey),
-              ),
+              Text('${announcement.viewCount}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Colors.grey)),
             ],
           ),
-
-          // 标签
           if (announcement.tags.isNotEmpty) ...[
             const SizedBox(height: 12),
             Wrap(
@@ -174,17 +156,12 @@ class _DetailContent extends StatelessWidget {
                   .toList(),
             ),
           ],
-
           const SizedBox(height: 20),
           const Divider(),
           const SizedBox(height: 20),
-
-          // 正文
           Text(
             announcement.content,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  height: 1.8,
-                ),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.8),
           ),
         ],
       ),

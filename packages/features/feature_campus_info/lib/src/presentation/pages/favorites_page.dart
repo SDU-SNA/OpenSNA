@@ -17,7 +17,7 @@ class FavoritesPage extends ConsumerWidget {
       body: favoritesAsync.when(
         data: (favorites) {
           if (favorites.isEmpty) {
-            return const EmptyWidget(message: '暂无收藏');
+            return const EmptyWidget(title: '暂无收藏');
           }
           return ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -58,7 +58,7 @@ class FavoritesPage extends ConsumerWidget {
         },
         loading: () => const LoadingWidget(),
         error: (error, _) => AppErrorWidget(
-          error: error.toString(),
+          message: error.toString(),
           onRetry: () => ref.invalidate(favoritesProvider),
         ),
       ),

@@ -4,7 +4,6 @@ import 'package:core_ui/core_ui.dart';
 import '../providers/convenience_providers.dart';
 import '../../data/models/classroom.dart';
 
-/// 教室查询页面
 class ClassroomPage extends ConsumerWidget {
   const ClassroomPage({super.key});
 
@@ -30,12 +29,10 @@ class ClassroomPage extends ConsumerWidget {
       appBar: AppBar(title: const Text('空闲教室查询')),
       body: Column(
         children: [
-          // 筛选栏
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
             child: Row(
               children: [
-                // 楼栋筛选
                 Expanded(
                   child: buildingsAsync.maybeWhen(
                     data: (buildings) => DropdownButtonFormField<String?>(
@@ -48,9 +45,10 @@ class ClassroomPage extends ConsumerWidget {
                         isDense: true,
                       ),
                       items: [
-                        const DropdownMenuItem(value: null, child: Text('全部楼栋')),
-                        ...buildings.map((b) =>
-                            DropdownMenuItem(value: b, child: Text(b))),
+                        const DropdownMenuItem(
+                            value: null, child: Text('全部楼栋')),
+                        ...buildings.map(
+                            (b) => DropdownMenuItem(value: b, child: Text(b))),
                       ],
                       onChanged: (v) =>
                           ref.read(selectedBuildingProvider.notifier).state = v,
@@ -59,7 +57,6 @@ class ClassroomPage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                // 类型筛选
                 Expanded(
                   child: DropdownButtonFormField<String?>(
                     value: selectedType,
@@ -71,8 +68,8 @@ class ClassroomPage extends ConsumerWidget {
                       isDense: true,
                     ),
                     items: _types
-                        .map((t) =>
-                            DropdownMenuItem(value: t.value, child: Text(t.label)))
+                        .map((t) => DropdownMenuItem(
+                            value: t.value, child: Text(t.label)))
                         .toList(),
                     onChanged: (v) => ref
                         .read(selectedClassroomTypeProvider.notifier)
@@ -83,13 +80,11 @@ class ClassroomPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 12),
-
-          // 教室列表
           Expanded(
             child: classroomsAsync.when(
               data: (classrooms) {
                 if (classrooms.isEmpty) {
-                  return const EmptyWidget(message: '暂无空闲教室');
+                  return const EmptyWidget(title: '暂无空闲教室');
                 }
                 return RefreshIndicator(
                   onRefresh: () async => ref.invalidate(
@@ -106,7 +101,7 @@ class ClassroomPage extends ConsumerWidget {
               },
               loading: () => const LoadingWidget(),
               error: (error, _) => AppErrorWidget(
-                error: error.toString(),
+                message: error.toString(),
                 onRetry: () => ref.invalidate(
                   availableClassroomsProvider(
                       (building: selectedBuilding, type: selectedType)),
@@ -122,7 +117,6 @@ class ClassroomPage extends ConsumerWidget {
 
 class _ClassroomCard extends StatelessWidget {
   final Classroom classroom;
-
   const _ClassroomCard({required this.classroom});
 
   @override
@@ -133,7 +127,6 @@ class _ClassroomCard extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         child: Row(
           children: [
-            // 状态指示
             Container(
               width: 10,
               height: 10,
@@ -149,13 +142,11 @@ class _ClassroomCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        classroom.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
+                      Text(classroom.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(fontWeight: FontWeight.bold)),
                       const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -164,11 +155,9 @@ class _ClassroomCard extends StatelessWidget {
                           color: Colors.blue.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Text(
-                          classroom.typeText,
-                          style: const TextStyle(
-                              fontSize: 11, color: Colors.blue),
-                        ),
+                        child: Text(classroom.typeText,
+                            style: const TextStyle(
+                                fontSize: 11, color: Colors.blue)),
                       ),
                     ],
                   ),
@@ -191,24 +180,20 @@ class _ClassroomCard extends StatelessWidget {
                   if (!classroom.isAvailable &&
                       classroom.currentCourse != null) ...[
                     const SizedBox(height: 4),
-                    Text(
-                      '当前：${classroom.currentCourse}',
-                      style: const TextStyle(fontSize: 12, color: Colors.red),
-                    ),
+                    Text('当前：${classroom.currentCourse}',
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.red)),
                   ],
                   if (classroom.isAvailable &&
                       classroom.nextOccupiedTime != null) ...[
                     const SizedBox(height: 4),
-                    Text(
-                      '下次有课：${_formatTime(classroom.nextOccupiedTime!)}',
-                      style: const TextStyle(
-                          fontSize: 12, color: Colors.orange),
-                    ),
+                    Text('下次有课：${_formatTime(classroom.nextOccupiedTime!)}',
+                        style: const TextStyle(
+                            fontSize: 12, color: Colors.orange)),
                   ],
                 ],
               ),
             ),
-            // 空闲状态
             Text(
               classroom.isAvailable ? '空闲' : '占用',
               style: TextStyle(

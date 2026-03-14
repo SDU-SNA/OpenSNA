@@ -19,8 +19,7 @@ Classroom _$ClassroomFromJson(Map<String, dynamic> json) => Classroom(
       currentCourse: json['currentCourse'] as String?,
     );
 
-Map<String, dynamic> _$ClassroomToJson(Classroom instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ClassroomToJson(Classroom instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'building': instance.building,

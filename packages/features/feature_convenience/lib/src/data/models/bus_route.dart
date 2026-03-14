@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'bus_route.g.dart';
@@ -42,8 +43,11 @@ class BusRoute {
     return (depHour * 60 + depMin) - (now.hour * 60 + now.minute);
   }
 
+  /// 是否即将发车（10分钟内）
+  bool get isSoon => minutesUntilDeparture >= 0 && minutesUntilDeparture <= 10;
+
+  /// 是否已发车
   bool get isDeparted => minutesUntilDeparture < 0;
-  bool get isSoon => minutesUntilDeparture >= 0 && minutesUntilDeparture <= 15;
 
   String get typeText {
     switch (type) {

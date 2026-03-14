@@ -7,7 +7,6 @@ import 'announcement_detail_page.dart';
 import 'search_page.dart';
 import 'favorites_page.dart';
 
-/// 校园资讯主页面
 class CampusInfoPage extends ConsumerWidget {
   const CampusInfoPage({super.key});
 
@@ -48,7 +47,6 @@ class CampusInfoPage extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          // 分类筛选
           SizedBox(
             height: 48,
             child: ListView.separated(
@@ -70,13 +68,11 @@ class CampusInfoPage extends ConsumerWidget {
               },
             ),
           ),
-
-          // 公告列表
           Expanded(
             child: announcementsAsync.when(
               data: (announcements) {
                 if (announcements.isEmpty) {
-                  return const EmptyWidget(message: '暂无公告');
+                  return const EmptyWidget(title: '暂无公告');
                 }
                 return RefreshIndicator(
                   onRefresh: () async {
@@ -93,8 +89,7 @@ class CampusInfoPage extends ConsumerWidget {
                           context,
                           MaterialPageRoute(
                             builder: (_) => AnnouncementDetailPage(
-                              id: announcements[index].id,
-                            ),
+                                id: announcements[index].id),
                           ),
                         ),
                       );
@@ -104,7 +99,7 @@ class CampusInfoPage extends ConsumerWidget {
               },
               loading: () => const LoadingWidget(),
               error: (error, _) => AppErrorWidget(
-                error: error.toString(),
+                message: error.toString(),
                 onRetry: () => ref.invalidate(announcementsProvider(
                     (category: selectedCategory, page: 1))),
               ),
@@ -116,15 +111,11 @@ class CampusInfoPage extends ConsumerWidget {
   }
 }
 
-/// 公告卡片
 class _AnnouncementCard extends ConsumerWidget {
   final Announcement announcement;
   final VoidCallback onTap;
 
-  const _AnnouncementCard({
-    required this.announcement,
-    required this.onTap,
-  });
+  const _AnnouncementCard({required this.announcement, required this.onTap});
 
   Color _getCategoryColor(BuildContext context) {
     switch (announcement.category) {
@@ -157,7 +148,6 @@ class _AnnouncementCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 置顶标识 + 分类 + 收藏
               Row(
                 children: [
                   if (announcement.isPinned) ...[
@@ -174,10 +164,9 @@ class _AnnouncementCard extends ConsumerWidget {
                     child: Text(
                       announcement.categoryText,
                       style: TextStyle(
-                        fontSize: 12,
-                        color: categoryColor,
-                        fontWeight: FontWeight.w500,
-                      ),
+                          fontSize: 12,
+                          color: categoryColor,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
                   const Spacer(),
@@ -194,8 +183,6 @@ class _AnnouncementCard extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 10),
-
-              // 标题
               Text(
                 announcement.title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -207,46 +194,40 @@ class _AnnouncementCard extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 6),
-
-              // 摘要
               Text(
                 announcement.summary,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Colors.grey[600]),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 12),
-
-              // 底部信息
               Row(
                 children: [
                   Icon(Icons.person_outline, size: 14, color: Colors.grey[500]),
                   const SizedBox(width: 4),
-                  Text(
-                    announcement.author,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[500],
-                        ),
-                  ),
+                  Text(announcement.author,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: Colors.grey[500])),
                   const SizedBox(width: 16),
                   Icon(Icons.remove_red_eye_outlined,
                       size: 14, color: Colors.grey[500]),
                   const SizedBox(width: 4),
-                  Text(
-                    '${announcement.viewCount}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[500],
-                        ),
-                  ),
+                  Text('${announcement.viewCount}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: Colors.grey[500])),
                   const Spacer(),
-                  Text(
-                    _formatDate(announcement.publishedAt),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[500],
-                        ),
-                  ),
+                  Text(_formatDate(announcement.publishedAt),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: Colors.grey[500])),
                 ],
               ),
             ],

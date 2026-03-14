@@ -14,14 +14,12 @@ BusRoute _$BusRouteFromJson(Map<String, dynamic> json) => BusRoute(
       departureTime: json['departureTime'] as String,
       arrivalTime: json['arrivalTime'] as String,
       durationMinutes: (json['durationMinutes'] as num).toInt(),
-      stops:
-          (json['stops'] as List<dynamic>).map((e) => e as String).toList(),
+      stops: (json['stops'] as List<dynamic>).map((e) => e as String).toList(),
       isRunning: json['isRunning'] as bool,
       type: json['type'] as String,
     );
 
-Map<String, dynamic> _$BusRouteToJson(BusRoute instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$BusRouteToJson(BusRoute instance) => <String, dynamic>{
       'id': instance.id,
       'routeName': instance.routeName,
       'departure': instance.departure,

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core_ui/core_ui.dart';
 import '../providers/convenience_providers.dart';
 
-/// 图书馆服务页面
 class LibraryPage extends ConsumerWidget {
   const LibraryPage({super.key});
 
@@ -33,7 +32,6 @@ class LibraryPage extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // 开放状态卡片
             statusAsync.when(
               data: (status) => _StatusCard(status: status),
               loading: () => const Card(
@@ -42,11 +40,9 @@ class LibraryPage extends ConsumerWidget {
                   child: Center(child: CircularProgressIndicator()),
                 ),
               ),
-              error: (error, _) => AppErrorWidget(error: error.toString()),
+              error: (error, _) => AppErrorWidget(message: error.toString()),
             ),
             const SizedBox(height: 16),
-
-            // 座位统计
             Text('座位情况',
                 style: Theme.of(context)
                     .textTheme
@@ -55,17 +51,13 @@ class LibraryPage extends ConsumerWidget {
             const SizedBox(height: 10),
             seatsAsync.when(
               data: (areas) {
-                if (areas.isEmpty) {
-                  return const EmptyWidget(message: '暂无座位数据');
-                }
+                if (areas.isEmpty) return const EmptyWidget(title: '暂无座位数据');
                 return Column(
-                  children: areas
-                      .map((area) => _AreaCard(area: area))
-                      .toList(),
+                  children: areas.map((area) => _AreaCard(area: area)).toList(),
                 );
               },
               loading: () => const LoadingWidget(),
-              error: (error, _) => AppErrorWidget(error: error.toString()),
+              error: (error, _) => AppErrorWidget(message: error.toString()),
             ),
           ],
         ),
@@ -74,10 +66,8 @@ class LibraryPage extends ConsumerWidget {
   }
 }
 
-/// 图书馆状态卡片
 class _StatusCard extends StatelessWidget {
   final Map<String, dynamic> status;
-
   const _StatusCard({required this.status});
 
   @override
@@ -139,7 +129,6 @@ class _InfoItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
-
   const _InfoItem(
       {required this.icon, required this.label, required this.value});
 
@@ -149,8 +138,7 @@ class _InfoItem extends StatelessWidget {
       children: [
         Icon(icon, color: Colors.blue, size: 22),
         const SizedBox(height: 6),
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.grey)),
+        Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
         const SizedBox(height: 2),
         Text(value,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
@@ -159,10 +147,8 @@ class _InfoItem extends StatelessWidget {
   }
 }
 
-/// 区域座位卡片
 class _AreaCard extends StatelessWidget {
   final Map<String, dynamic> area;
-
   const _AreaCard({required this.area});
 
   @override
@@ -191,13 +177,10 @@ class _AreaCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(name,
-                    style: const TextStyle(fontWeight: FontWeight.w600)),
-                Text(
-                  '$available 个空位',
-                  style: TextStyle(
-                      color: progressColor, fontWeight: FontWeight.bold),
-                ),
+                Text(name, style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text('$available 个空位',
+                    style: TextStyle(
+                        color: progressColor, fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 8),
@@ -211,10 +194,8 @@ class _AreaCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              '共 $total 个座位，已占用 ${total - available} 个',
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-            ),
+            Text('共 $total 个座位，已占用 ${total - available} 个',
+                style: const TextStyle(fontSize: 12, color: Colors.grey)),
           ],
         ),
       ),
