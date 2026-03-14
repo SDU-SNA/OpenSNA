@@ -3,9 +3,14 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  battery_plus
+  disks_desktop
   flutter_secure_storage_windows
+  hardware_info_kit
   permission_handler_windows
+  permission_kit
   share_plus
+  system_monitor_kit
   url_launcher_windows
 )
 
