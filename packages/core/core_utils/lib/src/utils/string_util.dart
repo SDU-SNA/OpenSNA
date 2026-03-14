@@ -23,7 +23,7 @@ class StringUtil {
   }
 
   /// Capitalize first letter of string
-  /// 
+  ///
   /// Example:
   /// ```dart
   /// StringUtil.capitalize('hello') // 'Hello'
@@ -34,7 +34,7 @@ class StringUtil {
   }
 
   /// Convert string to camelCase
-  /// 
+  ///
   /// Example:
   /// ```dart
   /// StringUtil.toCamelCase('hello_world') // 'helloWorld'
@@ -43,13 +43,13 @@ class StringUtil {
     if (isEmpty(str)) return str;
     final words = str.split(RegExp(r'[_\s-]+'));
     if (words.isEmpty) return str;
-    
+
     return words.first.toLowerCase() +
         words.skip(1).map((word) => capitalize(word.toLowerCase())).join();
   }
 
   /// Convert string to snake_case
-  /// 
+  ///
   /// Example:
   /// ```dart
   /// StringUtil.toSnakeCase('helloWorld') // 'hello_world'
@@ -65,7 +65,7 @@ class StringUtil {
   }
 
   /// Truncate string to specified length with ellipsis
-  /// 
+  ///
   /// Example:
   /// ```dart
   /// StringUtil.truncate('Hello World', 5) // 'Hello...'
@@ -76,7 +76,7 @@ class StringUtil {
   }
 
   /// Mask string (e.g., for phone numbers, emails)
-  /// 
+  ///
   /// Example:
   /// ```dart
   /// StringUtil.mask('13812345678', start: 3, end: 7) // '138****5678'
@@ -88,11 +88,11 @@ class StringUtil {
     String maskChar = '*',
   }) {
     if (isEmpty(str) || start >= end || end > str.length) return str;
-    
+
     final prefix = str.substring(0, start);
     final suffix = str.substring(end);
     final masked = maskChar * (end - start);
-    
+
     return prefix + masked + suffix;
   }
 
@@ -106,12 +106,12 @@ class StringUtil {
   static String maskEmail(String email) {
     final parts = email.split('@');
     if (parts.length != 2) return email;
-    
+
     final username = parts[0];
     final domain = parts[1];
-    
+
     if (username.length <= 3) return email;
-    
+
     final maskedUsername = username.substring(0, 3) + '***';
     return '$maskedUsername@$domain';
   }

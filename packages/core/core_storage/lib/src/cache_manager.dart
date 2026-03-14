@@ -20,7 +20,8 @@ class CacheItem<T> {
     };
   }
 
-  factory CacheItem.fromJson(Map<String, dynamic> json, T Function(dynamic) fromJsonT) {
+  factory CacheItem.fromJson(
+      Map<String, dynamic> json, T Function(dynamic) fromJsonT) {
     return CacheItem<T>(
       data: fromJsonT(json['data']),
       expireTime: DateTime.fromMillisecondsSinceEpoch(json['expireTime']),
@@ -46,7 +47,8 @@ class CacheManager {
 
   SharedPreferences get _preferences {
     if (_prefs == null) {
-      throw Exception('CacheManager not initialized. Call CacheManager.init() first.');
+      throw Exception(
+          'CacheManager not initialized. Call CacheManager.init() first.');
     }
     return _prefs!;
   }
@@ -103,7 +105,8 @@ class CacheManager {
 
   /// 清空所有缓存
   Future<bool> clearAll() async {
-    final keys = _preferences.getKeys()
+    final keys = _preferences
+        .getKeys()
         .where((key) => key.startsWith('cache_'))
         .toList();
 
@@ -115,7 +118,8 @@ class CacheManager {
 
   /// 清理过期缓存
   Future<void> clearExpired() async {
-    final keys = _preferences.getKeys()
+    final keys = _preferences
+        .getKeys()
         .where((key) => key.startsWith('cache_'))
         .toList();
 
@@ -124,7 +128,8 @@ class CacheManager {
       if (jsonString != null) {
         try {
           final json = jsonDecode(jsonString);
-          final expireTime = DateTime.fromMillisecondsSinceEpoch(json['expireTime']);
+          final expireTime =
+              DateTime.fromMillisecondsSinceEpoch(json['expireTime']);
           if (DateTime.now().isAfter(expireTime)) {
             await _preferences.remove(key);
           }

@@ -23,7 +23,7 @@ extension StringExtensions on String {
     if (isEmpty) return this;
     final words = split(RegExp(r'[_\s-]+'));
     if (words.isEmpty) return this;
-    
+
     return words.first.toLowerCase() +
         words.skip(1).map((word) => word.capitalize).join();
   }

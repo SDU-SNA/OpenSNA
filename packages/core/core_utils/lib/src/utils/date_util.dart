@@ -5,7 +5,7 @@ class DateUtil {
   DateUtil._();
 
   /// Format date to string with given pattern
-  /// 
+  ///
   /// Example:
   /// ```dart
   /// DateUtil.format(DateTime.now(), 'yyyy-MM-dd HH:mm:ss')
@@ -15,7 +15,7 @@ class DateUtil {
   }
 
   /// Parse string to DateTime with given pattern
-  /// 
+  ///
   /// Example:
   /// ```dart
   /// DateUtil.parse('2024-03-11', 'yyyy-MM-dd')

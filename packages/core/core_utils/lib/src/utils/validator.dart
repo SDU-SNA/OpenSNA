@@ -25,7 +25,7 @@ class Validator {
   }
 
   /// Validate password strength
-  /// 
+  ///
   /// Requirements:
   /// - At least [minLength] characters (default: 8)
   /// - Contains at least one uppercase letter (if [requireUppercase] is true)

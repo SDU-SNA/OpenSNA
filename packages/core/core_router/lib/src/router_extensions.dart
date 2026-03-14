@@ -9,8 +9,14 @@ extension RouterExtensions on BuildContext {
   }
 
   /// 导航到指定路径（命名路由）
-  void navigateToNamed(String name, {Map<String, String>? pathParameters, Map<String, dynamic>? queryParameters, Object? extra}) {
-    goNamed(name, pathParameters: pathParameters ?? {}, queryParameters: queryParameters ?? {}, extra: extra);
+  void navigateToNamed(String name,
+      {Map<String, String>? pathParameters,
+      Map<String, dynamic>? queryParameters,
+      Object? extra}) {
+    goNamed(name,
+        pathParameters: pathParameters ?? {},
+        queryParameters: queryParameters ?? {},
+        extra: extra);
   }
 
   /// 替换当前路由
@@ -19,8 +25,14 @@ extension RouterExtensions on BuildContext {
   }
 
   /// 替换当前路由（命名路由）
-  void replaceToNamed(String name, {Map<String, String>? pathParameters, Map<String, dynamic>? queryParameters, Object? extra}) {
-    replaceNamed(name, pathParameters: pathParameters ?? {}, queryParameters: queryParameters ?? {}, extra: extra);
+  void replaceToNamed(String name,
+      {Map<String, String>? pathParameters,
+      Map<String, dynamic>? queryParameters,
+      Object? extra}) {
+    replaceNamed(name,
+        pathParameters: pathParameters ?? {},
+        queryParameters: queryParameters ?? {},
+        extra: extra);
   }
 
   /// 推送新路由
@@ -29,8 +41,14 @@ extension RouterExtensions on BuildContext {
   }
 
   /// 推送新路由（命名路由）
-  Future<T?> pushToNamed<T>(String name, {Map<String, String>? pathParameters, Map<String, dynamic>? queryParameters, Object? extra}) {
-    return pushNamed<T>(name, pathParameters: pathParameters ?? {}, queryParameters: queryParameters ?? {}, extra: extra);
+  Future<T?> pushToNamed<T>(String name,
+      {Map<String, String>? pathParameters,
+      Map<String, dynamic>? queryParameters,
+      Object? extra}) {
+    return pushNamed<T>(name,
+        pathParameters: pathParameters ?? {},
+        queryParameters: queryParameters ?? {},
+        extra: extra);
   }
 
   /// 返回上一页

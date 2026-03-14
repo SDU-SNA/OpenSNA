@@ -7,16 +7,16 @@ class AppRoutes {
 
   // 根路径
   static const String root = '/';
-  
+
   // 认证相关
   static const String login = '/login';
   static const String register = '/register';
-  
+
   // 主页面
   static const String home = '/home';
   static const String profile = '/profile';
   static const String settings = '/settings';
-  
+
   // 功能页面
   static const String dashboard = '/dashboard';
   static const String community = '/community';

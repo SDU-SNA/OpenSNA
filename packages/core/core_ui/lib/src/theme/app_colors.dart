@@ -5,7 +5,7 @@ class AppColors {
   AppColors._();
 
   // ==================== 主色调 ====================
-  
+
   /// 主色（品牌色）
   static const Color primary = Color(0xFF1976D2);
   static const Color primaryLight = Color(0xFF63A4FF);
@@ -17,7 +17,7 @@ class AppColors {
   static const Color secondaryDark = Color(0xFFC43E00);
 
   // ==================== 功能色 ====================
-  
+
   /// 成功色
   static const Color success = Color(0xFF4CAF50);
   static const Color successLight = Color(0xFF80E27E);
@@ -39,7 +39,7 @@ class AppColors {
   static const Color infoDark = Color(0xFF1976D2);
 
   // ==================== 中性色 ====================
-  
+
   /// 背景色
   static const Color background = Color(0xFFF5F5F5);
   static const Color backgroundDark = Color(0xFF121212);
@@ -69,7 +69,7 @@ class AppColors {
   static const Color borderDark = Color(0xFF424242);
 
   // ==================== 特殊色 ====================
-  
+
   /// 遮罩
   static const Color overlay = Color(0x80000000);
   static const Color overlayLight = Color(0x40000000);
@@ -82,7 +82,7 @@ class AppColors {
   static const Color transparent = Colors.transparent;
 
   // ==================== 渐变色 ====================
-  
+
   /// 主色渐变
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [primary, primaryDark],
@@ -98,7 +98,7 @@ class AppColors {
   );
 
   // ==================== 辅助方法 ====================
-  
+
   /// 获取颜色的透明度变体
   static Color withOpacity(Color color, double opacity) {
     return color.withOpacity(opacity);

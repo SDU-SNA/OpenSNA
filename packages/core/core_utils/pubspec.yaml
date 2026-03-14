@@ -11,9 +11,7 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
   log_kit:
-    git:
-      url: https://github.com/h1s97x/LogKit.git
-      ref: main
+    path: ../../toolkit/log_kit
 
 dev_dependencies:
   flutter_test:

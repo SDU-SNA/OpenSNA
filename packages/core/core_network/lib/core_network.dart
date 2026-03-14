@@ -18,4 +18,5 @@ export 'src/interceptors/log_interceptor.dart';
 export 'src/interceptors/error_interceptor.dart';
 
 // 导出Dio相关（方便使用）
-export 'package:dio/dio.dart' show Options, CancelToken, ProgressCallback, FormData, MultipartFile;
+export 'package:dio/dio.dart'
+    show Options, CancelToken, ProgressCallback, FormData, MultipartFile;

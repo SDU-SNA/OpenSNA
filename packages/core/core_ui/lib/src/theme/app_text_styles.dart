@@ -6,7 +6,7 @@ class AppTextStyles {
   AppTextStyles._();
 
   // ==================== 标题样式 ====================
-  
+
   /// 超大标题 (32px)
   static const TextStyle displayLarge = TextStyle(
     fontSize: 32,
@@ -32,7 +32,7 @@ class AppTextStyles {
   );
 
   // ==================== 标题样式 ====================
-  
+
   /// H1 标题 (22px)
   static const TextStyle headlineLarge = TextStyle(
     fontSize: 22,
@@ -58,7 +58,7 @@ class AppTextStyles {
   );
 
   // ==================== 正文样式 ====================
-  
+
   /// 大正文 (16px)
   static const TextStyle bodyLarge = TextStyle(
     fontSize: 16,
@@ -84,7 +84,7 @@ class AppTextStyles {
   );
 
   // ==================== 标签样式 ====================
-  
+
   /// 大标签 (14px)
   static const TextStyle labelLarge = TextStyle(
     fontSize: 14,
@@ -110,7 +110,7 @@ class AppTextStyles {
   );
 
   // ==================== 按钮样式 ====================
-  
+
   /// 按钮文字
   static const TextStyle button = TextStyle(
     fontSize: 14,
@@ -136,7 +136,7 @@ class AppTextStyles {
   );
 
   // ==================== 特殊样式 ====================
-  
+
   /// 链接文字
   static const TextStyle link = TextStyle(
     fontSize: 14,
@@ -179,7 +179,7 @@ class AppTextStyles {
   );
 
   // ==================== 深色模式样式 ====================
-  
+
   /// 深色模式标题
   static TextStyle get displayLargeDark => displayLarge.copyWith(
         color: AppColors.textPrimaryDark,

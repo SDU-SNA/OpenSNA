@@ -33,7 +33,8 @@ class ApiResponse<T> {
       data: json['data'] != null && fromJsonT != null
           ? fromJsonT(json['data'])
           : json['data'] as T?,
-      timestamp: json['timestamp'] as int? ?? DateTime.now().millisecondsSinceEpoch,
+      timestamp:
+          json['timestamp'] as int? ?? DateTime.now().millisecondsSinceEpoch,
     );
   }
 

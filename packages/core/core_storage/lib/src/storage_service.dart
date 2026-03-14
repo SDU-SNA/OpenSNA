@@ -20,7 +20,8 @@ class StorageService {
 
   SharedPreferences get _preferences {
     if (_prefs == null) {
-      throw Exception('StorageService not initialized. Call StorageService.init() first.');
+      throw Exception(
+          'StorageService not initialized. Call StorageService.init() first.');
     }
     return _prefs!;
   }
