@@ -421,7 +421,7 @@ class _RepairRecordsTab extends ConsumerWidget {
     return recordsAsync.when(
       data: (records) {
         if (records.isEmpty) {
-          return const EmptyWidget(message: '暂无报修记录');
+          return const EmptyWidget(title: '暂无报修记录');
         }
 
         return RefreshIndicator(
@@ -442,7 +442,7 @@ class _RepairRecordsTab extends ConsumerWidget {
       },
       loading: () => const LoadingWidget(),
       error: (error, stack) => AppErrorWidget(
-        error: error.toString(),
+        message: error.toString(),
         onRetry: () {
           ref.invalidate(
             repairRecordsProvider((status: null, page: 1, pageSize: 20)),
@@ -590,9 +590,7 @@ class _RepairRecordCard extends StatelessWidget {
                     ...List.generate(
                       5,
                       (index) => Icon(
-                        index < record.rating!
-                            ? Icons.star
-                            : Icons.star_border,
+                        index < record.rating! ? Icons.star : Icons.star_border,
                         size: 16,
                         color: Colors.amber,
                       ),

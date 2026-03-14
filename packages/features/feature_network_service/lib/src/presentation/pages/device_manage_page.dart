@@ -29,7 +29,7 @@ class DeviceManagePage extends ConsumerWidget {
         data: (devices) => _buildContent(context, ref, devices),
         loading: () => const LoadingWidget(),
         error: (error, stack) => AppErrorWidget(
-          error: error.toString(),
+          message: error.toString(),
           onRetry: () {
             ref.invalidate(onlineDevicesProvider);
           },
@@ -38,9 +38,10 @@ class DeviceManagePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context, WidgetRef ref, List<DeviceInfo> devices) {
+  Widget _buildContent(
+      BuildContext context, WidgetRef ref, List<DeviceInfo> devices) {
     if (devices.isEmpty) {
-      return const EmptyWidget(message: '暂无在线设备');
+      return const EmptyWidget(title: '暂无在线设备');
     }
 
     return RefreshIndicator(
@@ -127,7 +128,7 @@ class DeviceManagePage extends ConsumerWidget {
         const SizedBox(height: 8),
         Text(
           value,
-          style: AppTextStyles.titleLarge.copyWith(
+          style: AppTextStyles.headlineMedium.copyWith(
             color: color,
             fontWeight: FontWeight.bold,
           ),
@@ -144,7 +145,8 @@ class DeviceManagePage extends ConsumerWidget {
   }
 
   /// 设备卡片
-  Widget _buildDeviceCard(BuildContext context, WidgetRef ref, DeviceInfo device) {
+  Widget _buildDeviceCard(
+      BuildContext context, WidgetRef ref, DeviceInfo device) {
     return Card(
       child: InkWell(
         onTap: () {
@@ -184,7 +186,7 @@ class DeviceManagePage extends ConsumerWidget {
                             Expanded(
                               child: Text(
                                 device.displayName,
-                                style: AppTextStyles.titleMedium,
+                                style: AppTextStyles.labelLarge,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -197,7 +199,8 @@ class DeviceManagePage extends ConsumerWidget {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.success.withValues(alpha: 0.1),
+                                  color:
+                                      AppColors.success.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
@@ -342,7 +345,8 @@ class DeviceManagePage extends ConsumerWidget {
   }
 
   /// 显示设备详情
-  void _showDeviceDetail(BuildContext context, WidgetRef ref, DeviceInfo device) {
+  void _showDeviceDetail(
+      BuildContext context, WidgetRef ref, DeviceInfo device) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -382,13 +386,17 @@ class DeviceManagePage extends ConsumerWidget {
                     _buildDetailItem('MAC地址', device.macAddress),
                     _buildDetailItem('IP地址', device.ipAddress),
                     _buildDetailItem('登录时间', _formatDateTime(device.loginTime)),
-                    _buildDetailItem('最后活动', _formatDateTime(device.lastActiveTime)),
+                    _buildDetailItem(
+                        '最后活跃', _formatDateTime(device.lastActiveTime)),
                     _buildDetailItem('在线时长', device.formattedOnlineDuration),
                     _buildDetailItem('已用流量', device.formattedTraffic),
                     if (device.os != null) _buildDetailItem('操作系统', device.os!),
-                    if (device.brand != null) _buildDetailItem('品牌', device.brand!),
-                    if (device.model != null) _buildDetailItem('型号', device.model!),
-                    if (device.location != null) _buildDetailItem('位置', device.location!),
+                    if (device.brand != null)
+                      _buildDetailItem('品牌', device.brand!),
+                    if (device.model != null)
+                      _buildDetailItem('型号', device.model!),
+                    if (device.location != null)
+                      _buildDetailItem('位置', device.location!),
                   ],
                 ),
               ),
@@ -442,7 +450,8 @@ class DeviceManagePage extends ConsumerWidget {
   }
 
   /// 确认下线设备
-  void _confirmOfflineDevice(BuildContext context, WidgetRef ref, DeviceInfo device) {
+  void _confirmOfflineDevice(
+      BuildContext context, WidgetRef ref, DeviceInfo device) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -469,10 +478,11 @@ class DeviceManagePage extends ConsumerWidget {
   }
 
   /// 下线设备
-  Future<void> _offlineDevice(BuildContext context, WidgetRef ref, DeviceInfo device) async {
+  Future<void> _offlineDevice(
+      BuildContext context, WidgetRef ref, DeviceInfo device) async {
     try {
       await ref.read(deviceManageProvider.notifier).offlineDevice(device.id);
-      
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('设备已下线')),

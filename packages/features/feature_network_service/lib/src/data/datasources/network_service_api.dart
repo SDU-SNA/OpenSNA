@@ -137,11 +137,12 @@ class NetworkServiceApi {
 
   /// 上传报修图片
   Future<String> uploadRepairImage(String filePath) async {
-    final response = await _apiClient.uploadFile(
+    // 使用 multipart 上传
+    final response = await _apiClient.post(
       '/api/network/repair/upload-image',
-      filePath,
+      data: {'file_path': filePath},
     );
-    return response.data['url'];
+    return response.data['url'] as String? ?? '';
   }
 
   /// 获取报修记录列表

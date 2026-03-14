@@ -30,7 +30,6 @@ class _SpeedTestHistoryPageState extends ConsumerState<SpeedTestHistoryPage> {
           IconButton(
             icon: const Icon(Icons.filter_list),
             onPressed: () {
-              // TODO: 实现筛选功能
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('筛选功能开发中')),
               );
@@ -41,7 +40,7 @@ class _SpeedTestHistoryPageState extends ConsumerState<SpeedTestHistoryPage> {
       body: historyAsync.when(
         data: (results) {
           if (results.isEmpty) {
-            return const EmptyWidget(message: '暂无测速记录');
+            return const EmptyWidget(title: '暂无测速记录');
           }
 
           return RefreshIndicator(
@@ -53,10 +52,7 @@ class _SpeedTestHistoryPageState extends ConsumerState<SpeedTestHistoryPage> {
             },
             child: Column(
               children: [
-                // 统计信息
                 _StatisticsCard(results: results),
-
-                // 历史记录列表
                 Expanded(
                   child: ListView.builder(
                     padding: const EdgeInsets.all(16),
@@ -73,7 +69,7 @@ class _SpeedTestHistoryPageState extends ConsumerState<SpeedTestHistoryPage> {
         },
         loading: () => const LoadingWidget(),
         error: (error, stack) => AppErrorWidget(
-          error: error.toString(),
+          message: error.toString(),
           onRetry: () {
             ref.invalidate(
               speedTestHistoryProvider(
@@ -96,17 +92,15 @@ class _StatisticsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (results.isEmpty) return const SizedBox.shrink();
 
-    // 计算平均值
     final avgDownload =
         results.map((r) => r.downloadSpeed).reduce((a, b) => a + b) /
             results.length;
     final avgUpload =
         results.map((r) => r.uploadSpeed).reduce((a, b) => a + b) /
             results.length;
-    final avgPing =
-        results.map((r) => r.ping).reduce((a, b) => a + b) / results.length;
+    final avgLatency =
+        results.map((r) => r.latency).reduce((a, b) => a + b) / results.length;
 
-    // 计算最高值
     final maxDownload =
         results.map((r) => r.downloadSpeed).reduce((a, b) => a > b ? a : b);
     final maxUpload =
@@ -119,10 +113,7 @@ class _StatisticsCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '统计信息',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('统计信息', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 16),
             Row(
               children: [
@@ -150,7 +141,7 @@ class _StatisticsCard extends StatelessWidget {
                 Expanded(
                   child: _StatItem(
                     label: '平均延迟',
-                    value: '${avgPing.toStringAsFixed(0)} ms',
+                    value: '${avgLatency.toStringAsFixed(0)} ms',
                     icon: Icons.speed,
                     color: Colors.orange,
                   ),
@@ -195,7 +186,6 @@ class _StatisticsCard extends StatelessWidget {
   }
 }
 
-/// 统计项组件
 class _StatItem extends StatelessWidget {
   final String label;
   final String value;
@@ -218,12 +208,11 @@ class _StatItem extends StatelessWidget {
           children: [
             Icon(icon, size: 16, color: color),
             const SizedBox(width: 4),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey,
-                  ),
-            ),
+            Text(label,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Colors.grey)),
           ],
         ),
         const SizedBox(height: 4),
@@ -246,7 +235,7 @@ class _SpeedTestResultCard extends StatelessWidget {
   const _SpeedTestResultCard({required this.result});
 
   Color _getQualityColor() {
-    switch (result.quality) {
+    switch (result.qualityRating) {
       case 'excellent':
         return Colors.green;
       case 'good':
@@ -261,7 +250,7 @@ class _SpeedTestResultCard extends StatelessWidget {
   }
 
   IconData _getQualityIcon() {
-    switch (result.quality) {
+    switch (result.qualityRating) {
       case 'excellent':
         return Icons.sentiment_very_satisfied;
       case 'good':
@@ -282,21 +271,18 @@ class _SpeedTestResultCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
-        onTap: () {
-          _showDetailDialog(context);
-        },
+        onTap: () => _showDetailDialog(context),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 质量评级和时间
               Row(
                 children: [
                   Icon(_getQualityIcon(), color: qualityColor, size: 24),
                   const SizedBox(width: 8),
                   Text(
-                    result.qualityText,
+                    result.qualityRatingText,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: qualityColor,
                           fontWeight: FontWeight.bold,
@@ -304,16 +290,15 @@ class _SpeedTestResultCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    _formatDate(result.timestamp),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                        ),
+                    _formatDate(result.testTime),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: Colors.grey),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
-
-              // 速度指标
               Row(
                 children: [
                   Expanded(
@@ -340,7 +325,7 @@ class _SpeedTestResultCard extends StatelessWidget {
                     child: _SpeedIndicator(
                       icon: Icons.speed,
                       label: '延迟',
-                      value: result.ping.toStringAsFixed(0),
+                      value: result.latency.toString(),
                       unit: 'ms',
                       color: Colors.orange,
                     ),
@@ -348,24 +333,21 @@ class _SpeedTestResultCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-
-              // 服务器信息
-              if (result.server != null) ...[
-                const Divider(),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    const Icon(Icons.dns, size: 16, color: Colors.grey),
-                    const SizedBox(width: 4),
-                    Text(
-                      '服务器: ${result.server}',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.grey,
-                          ),
-                    ),
-                  ],
-                ),
-              ],
+              const Divider(),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.dns, size: 16, color: Colors.grey),
+                  const SizedBox(width: 4),
+                  Text(
+                    '服务器: ${result.server}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: Colors.grey),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -383,20 +365,21 @@ class _SpeedTestResultCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _DetailRow(label: '质量评级', value: result.qualityText),
+              _DetailRow(label: '质量评级', value: result.qualityRatingText),
               _DetailRow(
                   label: '下载速度',
                   value: '${result.downloadSpeed.toStringAsFixed(2)} Mbps'),
               _DetailRow(
                   label: '上传速度',
                   value: '${result.uploadSpeed.toStringAsFixed(2)} Mbps'),
-              _DetailRow(label: '延迟', value: '${result.ping.toInt()} ms'),
-              _DetailRow(label: '抖动', value: '${result.jitter.toInt()} ms'),
+              _DetailRow(label: '延迟', value: '${result.latency} ms'),
+              _DetailRow(label: '抖动', value: '${result.jitter} ms'),
               _DetailRow(
-                  label: '丢包率', value: '${result.packetLoss.toInt()}%'),
-              if (result.server != null)
-                _DetailRow(label: '服务器', value: result.server!),
-              _DetailRow(label: '测速时间', value: _formatFullDate(result.timestamp)),
+                  label: '丢包率',
+                  value: '${result.packetLoss.toStringAsFixed(2)}%'),
+              _DetailRow(label: '服务器', value: result.server),
+              _DetailRow(
+                  label: '测速时间', value: _formatFullDate(result.testTime)),
             ],
           ),
         ),
@@ -413,11 +396,8 @@ class _SpeedTestResultCard extends StatelessWidget {
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final diff = now.difference(date);
-
     if (diff.inDays == 0) {
-      if (diff.inHours == 0) {
-        return '${diff.inMinutes}分钟前';
-      }
+      if (diff.inHours == 0) return '${diff.inMinutes}分钟前';
       return '${diff.inHours}小时前';
     } else if (diff.inDays < 7) {
       return '${diff.inDays}天前';
@@ -427,12 +407,13 @@ class _SpeedTestResultCard extends StatelessWidget {
   }
 
   String _formatFullDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} '
-        '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')} '
+        '${date.hour.toString().padLeft(2, '0')}:'
+        '${date.minute.toString().padLeft(2, '0')}';
   }
 }
 
-/// 速度指标组件
 class _SpeedIndicator extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -454,12 +435,11 @@ class _SpeedIndicator extends StatelessWidget {
       children: [
         Icon(icon, color: color, size: 20),
         const SizedBox(height: 4),
-        Text(
-          label,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.grey,
-              ),
-        ),
+        Text(label,
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(color: Colors.grey)),
         const SizedBox(height: 4),
         RichText(
           text: TextSpan(
@@ -473,9 +453,10 @@ class _SpeedIndicator extends StatelessWidget {
               ),
               TextSpan(
                 text: ' $unit',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Colors.grey),
               ),
             ],
           ),
@@ -485,15 +466,11 @@ class _SpeedIndicator extends StatelessWidget {
   }
 }
 
-/// 详情行组件
 class _DetailRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const _DetailRow({
-    required this.label,
-    required this.value,
-  });
+  const _DetailRow({required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -502,18 +479,16 @@ class _DetailRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey,
-                ),
-          ),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
+          Text(label,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey)),
+          Text(value,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
         ],
       ),
     );

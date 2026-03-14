@@ -171,7 +171,8 @@ class SpeedTestResult {
   }
 
   /// 格式化的下载速度
-  String get formattedDownloadSpeed => '${downloadSpeed.toStringAsFixed(2)} Mbps';
+  String get formattedDownloadSpeed =>
+      '${downloadSpeed.toStringAsFixed(2)} Mbps';
 
   /// 格式化的上传速度
   String get formattedUploadSpeed => '${uploadSpeed.toStringAsFixed(2)} Mbps';

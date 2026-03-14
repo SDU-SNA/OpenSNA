@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core_network/core_network.dart';
 import '../../data/datasources/network_service_api.dart';
 import '../../data/repositories/network_repository_impl.dart';
+import '../../data/repositories/mock_network_repository.dart';
 import '../../domain/repositories/network_repository.dart';
 import '../../data/models/network_account.dart';
 import '../../data/models/device_info.dart';
@@ -10,9 +11,12 @@ import '../../data/models/repair_record.dart';
 
 // ==================== 依赖注入 ====================
 
+/// Mock 开关 Provider（主应用可通过 ProviderScope overrides 覆盖）
+final networkUseMockProvider = Provider<bool>((ref) => false);
+
 /// ApiClient Provider
 final apiClientProvider = Provider<ApiClient>((ref) {
-  return ApiClient();
+  return ApiClient(config: NetworkConfig.production());
 });
 
 /// NetworkServiceApi Provider
@@ -23,6 +27,7 @@ final networkServiceApiProvider = Provider<NetworkServiceApi>((ref) {
 
 /// NetworkRepository Provider
 final networkRepositoryProvider = Provider<NetworkRepository>((ref) {
+  if (ref.watch(networkUseMockProvider)) return MockNetworkRepository();
   final api = ref.watch(networkServiceApiProvider);
   return NetworkRepositoryImpl(api);
 });
@@ -36,8 +41,7 @@ final networkAccountProvider = FutureProvider<NetworkAccount>((ref) async {
 });
 
 /// 流量使用历史 Provider
-final trafficHistoryProvider = FutureProvider.family<
-    List<Map<String, dynamic>>,
+final trafficHistoryProvider = FutureProvider.family<List<Map<String, dynamic>>,
     ({DateTime? startDate, DateTime? endDate})>((ref, params) async {
   final repository = ref.watch(networkRepositoryProvider);
   return await repository.getTrafficHistory(
