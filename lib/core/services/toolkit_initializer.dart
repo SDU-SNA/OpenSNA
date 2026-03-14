@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 // import 'package:crash_reporter_kit/crash_reporter_kit.dart';
 
 /// Toolkit包初始化服务
-/// 
+///
 /// 负责初始化所有Toolkit包，包括：
 /// - log_kit: 日志系统
 /// - crash_reporter_kit: 崩溃收集
@@ -66,11 +66,11 @@ class ToolkitInitializer {
       //   maxFileSize: 10 * 1024 * 1024, // 10MB
       //   maxFileCount: 5,
       // );
-      
+
       debugPrint('✅ 日志系统初始化完成');
       debugPrint('  - 文件日志: ${enableFileLog ? "启用" : "禁用"}');
       debugPrint('  - 远程日志: ${enableRemoteLog ? "启用" : "禁用"}');
-      
+
       // 记录初始化日志
       // LogKit.info('应用启动', tag: 'App');
     } catch (e) {
@@ -92,11 +92,11 @@ class ToolkitInitializer {
       //   enableInDebugMode: kDebugMode,
       //   autoReport: true,
       // );
-      
+
       debugPrint('✅ 崩溃收集初始化完成');
       debugPrint('  - API地址: ${apiUrl ?? "默认"}');
       debugPrint('  - 应用版本: ${appVersion ?? "1.0.0"}');
-      
+
       // 记录初始化日志
       // LogKit.info('崩溃收集系统已启动', tag: 'CrashReporter');
     } catch (e) {

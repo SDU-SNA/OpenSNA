@@ -5,7 +5,7 @@ class AppTheme {
   // 主题色
   static const Color primaryColor = Color(0xFF003D7A); // 山大蓝
   static const Color accentColor = Color(0xFFFFD700); // 山大金
-  
+
   /// 亮色主题
   static ThemeData get lightTheme {
     return ThemeData(
@@ -32,7 +32,7 @@ class AppTheme {
       ),
     );
   }
-  
+
   /// 暗色主题
   static ThemeData get darkTheme {
     return ThemeData(

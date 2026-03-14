@@ -19,7 +19,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
   @override
   void initState() {
     super.initState();
-    
+
     // 初始化动画
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1500),
@@ -41,7 +41,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
     );
 
     _controller.forward();
-    
+
     // 检查登录状态并导航
     _checkAuthAndNavigate();
   }
@@ -60,7 +60,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
 
     // 检查登录状态
     final authState = ref.read(authProvider);
-    
+
     if (authState.isLoggedIn) {
       // 已登录，跳转到首页
       Navigator.pushReplacementNamed(context, '/home');
@@ -116,9 +116,9 @@ class _SplashPageState extends ConsumerState<SplashPage>
                           color: Colors.blue,
                         ),
                       ),
-                      
+
                       const SizedBox(height: 32),
-                      
+
                       // 应用名称
                       const Text(
                         '山大网管会',
@@ -128,9 +128,9 @@ class _SplashPageState extends ConsumerState<SplashPage>
                           color: Colors.white,
                         ),
                       ),
-                      
+
                       const SizedBox(height: 8),
-                      
+
                       // 副标题
                       Text(
                         'SDU Network Management',
@@ -139,9 +139,9 @@ class _SplashPageState extends ConsumerState<SplashPage>
                           color: Colors.white.withOpacity(0.9),
                         ),
                       ),
-                      
+
                       const SizedBox(height: 48),
-                      
+
                       // 加载指示器
                       SizedBox(
                         width: 40,

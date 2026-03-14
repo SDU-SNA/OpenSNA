@@ -27,9 +27,9 @@ class ProfilePage extends ConsumerWidget {
         children: [
           // 用户信息头部
           _buildUserHeader(context, ref, user),
-          
+
           const SizedBox(height: 8),
-          
+
           // 账号管理
           _buildSection(
             context,
@@ -52,9 +52,9 @@ class ProfilePage extends ConsumerWidget {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // 应用设置
           _buildSection(
             context,
@@ -77,9 +77,9 @@ class ProfilePage extends ConsumerWidget {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // 其他
           _buildSection(
             context,
@@ -97,9 +97,9 @@ class ProfilePage extends ConsumerWidget {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // 退出登录按钮
           if (user != null)
             Padding(
@@ -114,7 +114,7 @@ class ProfilePage extends ConsumerWidget {
                 child: const Text('退出登录'),
               ),
             ),
-          
+
           const SizedBox(height: 32),
         ],
       ),
@@ -132,10 +132,10 @@ class ProfilePage extends ConsumerWidget {
           CircleAvatar(
             radius: 40,
             backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
-            child: user?.avatarUrl != null
+            child: user?.avatar != null
                 ? ClipOval(
                     child: Image.network(
-                      user!.avatarUrl!,
+                      user!.avatar!,
                       width: 80,
                       height: 80,
                       fit: BoxFit.cover,
@@ -154,16 +154,16 @@ class ProfilePage extends ConsumerWidget {
                     color: Theme.of(context).primaryColor,
                   ),
           ),
-          
+
           const SizedBox(width: 16),
-          
+
           // 用户信息
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user?.name ?? user?.username ?? '未登录',
+                  user?.extra?['name'] as String? ?? user?.username ?? '未登录',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -187,7 +187,7 @@ class ProfilePage extends ConsumerWidget {
               ],
             ),
           ),
-          
+
           // 箭头或登录按钮
           if (user != null)
             const Icon(Icons.chevron_right, color: Colors.grey)

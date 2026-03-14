@@ -5,7 +5,7 @@ class FeatureCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final VoidCallback onTap;
-  
+
   const FeatureCard({
     super.key,
     required this.icon,

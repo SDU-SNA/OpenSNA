@@ -66,8 +66,7 @@ class _UserCard extends StatelessWidget {
               backgroundColor:
                   Theme.of(context).colorScheme.primary.withOpacity(0.1),
               child: Icon(Icons.person,
-                  size: 28,
-                  color: Theme.of(context).colorScheme.primary),
+                  size: 28, color: Theme.of(context).colorScheme.primary),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -75,7 +74,7 @@ class _UserCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    user?.name ?? user?.username ?? '未登录',
+                    user?.extra?['name'] as String? ?? user?.username ?? '未登录',
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -206,8 +205,7 @@ class _AnnouncementSection extends StatelessWidget {
                         .titleMedium
                         ?.copyWith(fontWeight: FontWeight.bold)),
                 TextButton(
-                  onPressed: () =>
-                      onNavigate(context, const CampusInfoPage()),
+                  onPressed: () => onNavigate(context, const CampusInfoPage()),
                   child: const Text('更多'),
                 ),
               ],
@@ -254,8 +252,7 @@ class _AnnouncementItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: Theme.of(context).textTheme.bodyMedium),
+                  Text(title, style: Theme.of(context).textTheme.bodyMedium),
                   Text(date,
                       style: Theme.of(context)
                           .textTheme
@@ -340,8 +337,7 @@ class _ServicesSection extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Icon(s.icon,
-                                color:
-                                    Theme.of(context).colorScheme.primary,
+                                color: Theme.of(context).colorScheme.primary,
                                 size: 22),
                           ),
                           const SizedBox(width: 14),
@@ -369,8 +365,7 @@ class _ServicesSection extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (entry.key < services.length - 1)
-                    const Divider(height: 1),
+                  if (entry.key < services.length - 1) const Divider(height: 1),
                 ],
               );
             }),

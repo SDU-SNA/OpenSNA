@@ -15,29 +15,29 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
-  
+
   @override
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
-  
+
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     setState(() => _isLoading = true);
-    
+
     try {
       // TODO: 实现实际的登录逻辑
       await Future.delayed(const Duration(seconds: 2));
-      
+
       if (mounted) {
         await context.read<AuthProvider>().login(
-          _usernameController.text,
-          _usernameController.text,
-        );
-        
+              _usernameController.text,
+              _usernameController.text,
+            );
+
         if (mounted) {
           Navigator.pop(context);
         }
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(height: 32),
-                
+
                 // 用户名输入框
                 TextFormField(
                   controller: _usernameController,
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 const SizedBox(height: 16),
-                
+
                 // 密码输入框
                 TextFormField(
                   controller: _passwordController,
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 const SizedBox(height: 24),
-                
+
                 // 登录按钮
                 SizedBox(
                   width: double.infinity,

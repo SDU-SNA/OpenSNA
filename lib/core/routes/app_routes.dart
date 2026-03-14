@@ -11,7 +11,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String login = '/login';
   static const String settings = '/settings';
-  
+
   // Dashboard功能路由
   static const String ecard = '/ecard';
   static const String timetable = '/timetable';
@@ -19,7 +19,7 @@ class AppRoutes {
   static const String library = '/library';
   static const String exam = '/exam';
   static const String grade = '/grade';
-  
+
   static Map<String, WidgetBuilder> get routes {
     return {
       splash: (context) => const SplashPage(),

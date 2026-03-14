@@ -7,10 +7,10 @@ import '../config/app_config.dart';
 class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
   factory ApiClient() => _instance;
-  
+
   late Dio _dio;
   late CookieJar _cookieJar;
-  
+
   ApiClient._internal() {
     _cookieJar = CookieJar();
     _dio = Dio(
@@ -23,10 +23,10 @@ class ApiClient {
         },
       ),
     );
-    
+
     // 添加Cookie管理器
     _dio.interceptors.add(CookieManager(_cookieJar));
-    
+
     // 添加日志拦截器（仅在调试模式）
     _dio.interceptors.add(
       LogInterceptor(
@@ -35,10 +35,10 @@ class ApiClient {
       ),
     );
   }
-  
+
   Dio get dio => _dio;
   CookieJar get cookieJar => _cookieJar;
-  
+
   /// GET请求
   Future<Response> get(
     String path, {
@@ -51,7 +51,7 @@ class ApiClient {
       options: options,
     );
   }
-  
+
   /// POST请求
   Future<Response> post(
     String path, {
