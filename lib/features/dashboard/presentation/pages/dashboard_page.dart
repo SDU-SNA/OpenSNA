@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:feature_auth/feature_auth.dart';
+import 'package:feature_network_service/feature_network_service.dart';
+import 'package:feature_campus_info/feature_campus_info.dart';
+import 'package:feature_academic/feature_academic.dart';
+import 'package:feature_convenience/feature_convenience.dart';
 
 /// Dashboard 首页
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
+
+  void _navigate(BuildContext context, Widget page) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,137 +25,113 @@ class DashboardPage extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('通知功能开发中')),
-              );
-            },
+            onPressed: () => _navigate(context, const CampusInfoPage()),
           ),
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          // TODO: 刷新数据
-          await Future.delayed(const Duration(seconds: 1));
-        },
+        onRefresh: () async => Future.delayed(const Duration(seconds: 1)),
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // 用户信息卡片
-            _buildUserCard(context, user),
-            
+            _UserCard(user: user),
             const SizedBox(height: 16),
-            
-            // 快捷功能
-            _buildQuickActions(context),
-            
+            _QuickActionsCard(onNavigate: _navigate),
             const SizedBox(height: 16),
-            
-            // 公告栏
-            _buildAnnouncementSection(context),
-            
+            _AnnouncementSection(onNavigate: _navigate),
             const SizedBox(height: 16),
-            
-            // 常用服务
-            _buildServicesSection(context),
+            _ServicesSection(onNavigate: _navigate),
           ],
         ),
       ),
     );
   }
+}
 
-  /// 用户信息卡片
-  Widget _buildUserCard(BuildContext context, User? user) {
+/// 用户信息卡片
+class _UserCard extends StatelessWidget {
+  final User? user;
+
+  const _UserCard({this.user});
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            // 头像
             CircleAvatar(
-              radius: 30,
-              backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
-              child: user?.avatarUrl != null
-                  ? ClipOval(
-                      child: Image.network(
-                        user!.avatarUrl!,
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            Icons.person,
-                            size: 30,
-                            color: Theme.of(context).primaryColor,
-                          );
-                        },
-                      ),
-                    )
-                  : Icon(
-                      Icons.person,
-                      size: 30,
-                      color: Theme.of(context).primaryColor,
-                    ),
+              radius: 28,
+              backgroundColor:
+                  Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              child: Icon(Icons.person,
+                  size: 28,
+                  color: Theme.of(context).colorScheme.primary),
             ),
-            
-            const SizedBox(width: 16),
-            
-            // 用户信息
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     user?.name ?? user?.username ?? '未登录',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 3),
                   Text(
                     user?.email ?? '欢迎使用山大网管会',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                        ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: Colors.grey),
                   ),
                 ],
               ),
             ),
-            
-            // 箭头
             const Icon(Icons.chevron_right, color: Colors.grey),
           ],
         ),
       ),
     );
   }
+}
 
-  /// 快捷功能
-  Widget _buildQuickActions(BuildContext context) {
+/// 快捷功能卡片
+class _QuickActionsCard extends StatelessWidget {
+  final void Function(BuildContext, Widget) onNavigate;
+
+  const _QuickActionsCard({required this.onNavigate});
+
+  @override
+  Widget build(BuildContext context) {
     final actions = [
-      _QuickAction(
+      (
         icon: Icons.wifi,
         label: '网络账号',
         color: Colors.blue,
-        onTap: () => _showComingSoon(context, '网络账号'),
+        page: const NetworkAccountPage()
       ),
-      _QuickAction(
+      (
         icon: Icons.devices,
         label: '在线设备',
         color: Colors.green,
-        onTap: () => _showComingSoon(context, '在线设备'),
+        page: const DeviceManagePage()
       ),
-      _QuickAction(
+      (
         icon: Icons.speed,
         label: '网络测速',
         color: Colors.orange,
-        onTap: () => _showComingSoon(context, '网络测速'),
+        page: const SpeedTestPage()
       ),
-      _QuickAction(
+      (
         icon: Icons.build,
         label: '故障报修',
         color: Colors.red,
-        onTap: () => _showComingSoon(context, '故障报修'),
+        page: const RepairPage()
       ),
     ];
 
@@ -157,17 +141,39 @@ class DashboardPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '快捷功能',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            Text('快捷功能',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: actions.map((action) {
-                return _buildQuickActionItem(context, action);
+              children: actions.map((a) {
+                return InkWell(
+                  onTap: () => onNavigate(context, a.page),
+                  borderRadius: BorderRadius.circular(12),
+                  child: SizedBox(
+                    width: 68,
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: a.color.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(a.icon, color: a.color, size: 26),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(a.label,
+                            style: Theme.of(context).textTheme.bodySmall,
+                            textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                );
               }).toList(),
             ),
           ],
@@ -175,43 +181,16 @@ class DashboardPage extends ConsumerWidget {
       ),
     );
   }
+}
 
-  Widget _buildQuickActionItem(BuildContext context, _QuickAction action) {
-    return InkWell(
-      onTap: action.onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        width: 70,
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: action.color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                action.icon,
-                color: action.color,
-                size: 28,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              action.label,
-              style: Theme.of(context).textTheme.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+/// 公告栏
+class _AnnouncementSection extends StatelessWidget {
+  final void Function(BuildContext, Widget) onNavigate;
 
-  /// 公告栏
-  Widget _buildAnnouncementSection(BuildContext context) {
+  const _AnnouncementSection({required this.onNavigate});
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -221,104 +200,110 @@ class DashboardPage extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '公告通知',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
+                Text('公告通知',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)),
                 TextButton(
-                  onPressed: () => _showComingSoon(context, '更多公告'),
+                  onPressed: () =>
+                      onNavigate(context, const CampusInfoPage()),
                   child: const Text('更多'),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            _buildAnnouncementItem(
-              context,
-              '欢迎使用山大网管会APP',
-              '2026-03-11',
+            const SizedBox(height: 8),
+            _AnnouncementItem(
+              title: '欢迎使用山大网管会APP',
+              date: '2026-03-11',
+              onTap: () => onNavigate(context, const CampusInfoPage()),
             ),
-            const Divider(),
-            _buildAnnouncementItem(
-              context,
-              '网络服务升级通知',
-              '2026-03-10',
+            const Divider(height: 1),
+            _AnnouncementItem(
+              title: '网络服务升级通知',
+              date: '2026-03-10',
+              onTap: () => onNavigate(context, const CampusInfoPage()),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildAnnouncementItem(
-    BuildContext context,
-    String title,
-    String date,
-  ) {
+class _AnnouncementItem extends StatelessWidget {
+  final String title;
+  final String date;
+  final VoidCallback onTap;
+
+  const _AnnouncementItem(
+      {required this.title, required this.date, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _showComingSoon(context, '公告详情'),
+      onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
-            Icon(
-              Icons.campaign,
-              size: 20,
-              color: Theme.of(context).primaryColor,
-            ),
-            const SizedBox(width: 12),
+            Icon(Icons.campaign,
+                size: 18, color: Theme.of(context).colorScheme.primary),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    date,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                        ),
-                  ),
+                  Text(title,
+                      style: Theme.of(context).textTheme.bodyMedium),
+                  Text(date,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: Colors.grey)),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, size: 20, color: Colors.grey),
+            const Icon(Icons.chevron_right, size: 18, color: Colors.grey),
           ],
         ),
       ),
     );
   }
+}
 
-  /// 常用服务
-  Widget _buildServicesSection(BuildContext context) {
+/// 常用服务
+class _ServicesSection extends StatelessWidget {
+  final void Function(BuildContext, Widget) onNavigate;
+
+  const _ServicesSection({required this.onNavigate});
+
+  @override
+  Widget build(BuildContext context) {
     final services = [
-      _ServiceItem(
+      (
         icon: Icons.calendar_today,
         title: '课程表',
         subtitle: '查看我的课程',
-        onTap: () => _showComingSoon(context, '课程表'),
+        page: const AcademicTimetablePage()
       ),
-      _ServiceItem(
+      (
         icon: Icons.grade,
         title: '成绩查询',
         subtitle: '查看考试成绩',
-        onTap: () => _showComingSoon(context, '成绩查询'),
+        page: const GradesPage()
       ),
-      _ServiceItem(
-        icon: Icons.room,
+      (
+        icon: Icons.meeting_room,
         title: '教室查询',
         subtitle: '查找空闲教室',
-        onTap: () => _showComingSoon(context, '教室查询'),
+        page: const ClassroomPage()
       ),
-      _ServiceItem(
-        icon: Icons.library_books,
+      (
+        icon: Icons.local_library,
         title: '图书馆',
-        subtitle: '图书借阅服务',
-        onTap: () => _showComingSoon(context, '图书馆'),
+        subtitle: '座位与开放状态',
+        page: const LibraryPage()
       ),
     ];
 
@@ -328,18 +313,64 @@ class DashboardPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '常用服务',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 12),
-            ...services.map((service) {
+            Text('常用服务',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            ...services.asMap().entries.map((entry) {
+              final s = entry.value;
               return Column(
                 children: [
-                  _buildServiceItem(context, service),
-                  if (service != services.last) const Divider(),
+                  InkWell(
+                    onTap: () => onNavigate(context, s.page),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 38,
+                            height: 38,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(s.icon,
+                                color:
+                                    Theme.of(context).colorScheme.primary,
+                                size: 22),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(s.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w500)),
+                                Text(s.subtitle,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: Colors.grey)),
+                              ],
+                            ),
+                          ),
+                          const Icon(Icons.chevron_right,
+                              color: Colors.grey, size: 18),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (entry.key < services.length - 1)
+                    const Divider(height: 1),
                 ],
               );
             }),
@@ -348,86 +379,4 @@ class DashboardPage extends ConsumerWidget {
       ),
     );
   }
-
-  Widget _buildServiceItem(BuildContext context, _ServiceItem service) {
-    return InkWell(
-      onTap: service.onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(
-                service.icon,
-                color: Theme.of(context).primaryColor,
-                size: 24,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    service.title,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    service.subtitle,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                        ),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right, color: Colors.grey),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showComingSoon(BuildContext context, String feature) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$feature功能开发中')),
-    );
-  }
-}
-
-class _QuickAction {
-  final IconData icon;
-  final String label;
-  final Color color;
-  final VoidCallback onTap;
-
-  _QuickAction({
-    required this.icon,
-    required this.label,
-    required this.color,
-    required this.onTap,
-  });
-}
-
-class _ServiceItem {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
-
-  _ServiceItem({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
 }
