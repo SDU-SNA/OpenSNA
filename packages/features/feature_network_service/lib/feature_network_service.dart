@@ -14,7 +14,9 @@ export 'src/domain/repositories/network_repository.dart';
 
 // Presentation 层
 export 'src/presentation/providers/network_providers.dart';
+export 'src/presentation/pages/network_service_page.dart';
 export 'src/presentation/pages/speed_test_page.dart';
 export 'src/presentation/pages/network_account_page.dart';
 export 'src/presentation/pages/device_manage_page.dart';
-// export 'src/presentation/pages/repair_page.dart';
+export 'src/presentation/pages/repair_page.dart';
+export 'src/presentation/pages/speed_test_history_page.dart';
