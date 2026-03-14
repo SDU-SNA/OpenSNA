@@ -16,9 +16,7 @@ class AcademicApi {
       queryParameters: {if (semester != null) 'semester': semester},
     );
     final data = response.data as List;
-    return data
-        .map((e) => Course.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return data.map((e) => Course.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   /// 获取成绩列表
@@ -28,9 +26,7 @@ class AcademicApi {
       queryParameters: {if (semester != null) 'semester': semester},
     );
     final data = response.data as List;
-    return data
-        .map((e) => Grade.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return data.map((e) => Grade.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   /// 获取考试安排
@@ -40,9 +36,7 @@ class AcademicApi {
       queryParameters: {if (semester != null) 'semester': semester},
     );
     final data = response.data as List;
-    return data
-        .map((e) => Exam.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return data.map((e) => Exam.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   /// 获取可选学期列表

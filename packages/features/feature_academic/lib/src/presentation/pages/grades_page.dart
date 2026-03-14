@@ -17,30 +17,23 @@ class GradesPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('成绩查询'),
-        actions: [
-          _SemesterSelector(),
-        ],
+        actions: [_SemesterSelector()],
       ),
       body: gradesAsync.when(
         data: (grades) {
           if (grades.isEmpty) {
-            return const EmptyWidget(message: '暂无成绩数据');
+            return const EmptyWidget(title: '暂无成绩数据');
           }
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(gradesProvider(semester)),
             child: CustomScrollView(
               slivers: [
-                // GPA 统计卡片
-                SliverToBoxAdapter(
-                  child: _GpaCard(stats: stats),
-                ),
-                // 成绩列表
+                SliverToBoxAdapter(child: _GpaCard(stats: stats)),
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) =>
-                          _GradeCard(grade: grades[index]),
+                      (context, index) => _GradeCard(grade: grades[index]),
                       childCount: grades.length,
                     ),
                   ),
@@ -51,7 +44,7 @@ class GradesPage extends ConsumerWidget {
         },
         loading: () => const LoadingWidget(),
         error: (error, _) => AppErrorWidget(
-          error: error.toString(),
+          message: error.toString(),
           onRetry: () => ref.invalidate(gradesProvider(semester)),
         ),
       ),
@@ -59,10 +52,8 @@ class GradesPage extends ConsumerWidget {
   }
 }
 
-/// GPA 统计卡片
 class _GpaCard extends StatelessWidget {
   final Map<String, dynamic> stats;
-
   const _GpaCard({required this.stats});
 
   @override
@@ -79,20 +70,11 @@ class _GpaCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _StatItem(
-              value: gpa.toStringAsFixed(2),
-              label: '平均绩点',
-              color: _gpaColor(gpa),
-            ),
-            _StatItem(
-              value: '$total',
-              label: '课程总数',
-              color: Colors.blue,
-            ),
-            _StatItem(
-              value: '$passed',
-              label: '已通过',
-              color: Colors.green,
-            ),
+                value: gpa.toStringAsFixed(2),
+                label: '平均绩点',
+                color: _gpaColor(gpa)),
+            _StatItem(value: '$total', label: '课程总数', color: Colors.blue),
+            _StatItem(value: '$passed', label: '已通过', color: Colors.green),
             _StatItem(
               value: total > 0
                   ? '${(passed / total * 100).toStringAsFixed(0)}%'
@@ -118,7 +100,6 @@ class _StatItem extends StatelessWidget {
   final String value;
   final String label;
   final Color color;
-
   const _StatItem(
       {required this.value, required this.label, required this.color});
 
@@ -126,26 +107,18 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
+        Text(value,
+            style: TextStyle(
+                fontSize: 22, fontWeight: FontWeight.bold, color: color)),
         const SizedBox(height: 4),
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.grey)),
+        Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
       ],
     );
   }
 }
 
-/// 成绩卡片
 class _GradeCard extends StatelessWidget {
   final Grade grade;
-
   const _GradeCard({required this.grade});
 
   Color _scoreColor() {
@@ -171,7 +144,6 @@ class _GradeCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            // 成绩圆圈
             Container(
               width: 52,
               height: 52,
@@ -183,14 +155,12 @@ class _GradeCard extends StatelessWidget {
               child: Text(
                 grade.score,
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: _scoreColor(),
-                ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _scoreColor()),
               ),
             ),
             const SizedBox(width: 14),
-            // 课程信息
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,37 +186,30 @@ class _GradeCard extends StatelessWidget {
                             color: Colors.orange.withOpacity(0.15),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Text(
-                            grade.typeText,
-                            style: const TextStyle(
-                                fontSize: 11, color: Colors.orange),
-                          ),
+                          child: Text(grade.typeText,
+                              style: const TextStyle(
+                                  fontSize: 11, color: Colors.orange)),
                         ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Text(
-                        '${grade.credit} 学分',
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.grey),
-                      ),
+                      Text('${grade.credit} 学分',
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.grey)),
                       const SizedBox(width: 12),
-                      Text(
-                        grade.semester,
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.grey),
-                      ),
+                      Text(grade.semester,
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.grey)),
                       if (grade.gpa != null) ...[
                         const SizedBox(width: 12),
                         Text(
                           'GPA ${grade.gpa!.toStringAsFixed(1)}',
                           style: TextStyle(
-                            fontSize: 12,
-                            color: _scoreColor(),
-                            fontWeight: FontWeight.w500,
-                          ),
+                              fontSize: 12,
+                              color: _scoreColor(),
+                              fontWeight: FontWeight.w500),
                         ),
                       ],
                     ],
@@ -261,7 +224,6 @@ class _GradeCard extends StatelessWidget {
   }
 }
 
-/// 学期选择器
 class _SemesterSelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -273,9 +235,8 @@ class _SemesterSelector extends ConsumerWidget {
         icon: const Icon(Icons.filter_list),
         tooltip: '选择学期',
         initialValue: selected,
-        onSelected: (value) {
-          ref.read(selectedSemesterProvider.notifier).state = value;
-        },
+        onSelected: (value) =>
+            ref.read(selectedSemesterProvider.notifier).state = value,
         itemBuilder: (_) => [
           const PopupMenuItem(value: null, child: Text('全部学期')),
           ...semesters.map((s) => PopupMenuItem(value: s, child: Text(s))),

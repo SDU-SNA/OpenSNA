@@ -28,12 +28,10 @@ class Exam {
   factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
   Map<String, dynamic> toJson() => _$ExamToJson(this);
 
-  DateTime get endTime =>
-      examTime.add(Duration(minutes: durationMinutes));
+  DateTime get endTime => examTime.add(Duration(minutes: durationMinutes));
 
   /// 距离考试的天数（负数表示已过）
-  int get daysUntilExam =>
-      examTime.difference(DateTime.now()).inDays;
+  int get daysUntilExam => examTime.difference(DateTime.now()).inDays;
 
   bool get isUpcoming => examTime.isAfter(DateTime.now());
 

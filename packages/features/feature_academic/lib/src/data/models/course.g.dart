@@ -15,8 +15,9 @@ Course _$CourseFromJson(Map<String, dynamic> json) => Course(
       weekday: (json['weekday'] as num).toInt(),
       startSection: (json['startSection'] as num).toInt(),
       sectionCount: (json['sectionCount'] as num).toInt(),
-      weeks:
-          (json['weeks'] as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+      weeks: (json['weeks'] as List<dynamic>)
+          .map((e) => (e as num).toInt())
+          .toList(),
       color: json['color'] as String,
     );
 
