@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:feature_academic/feature_academic.dart';
 
-/// 课表页面
+/// 课表页面 - 集成 feature_academic
 class TimetablePage extends StatelessWidget {
   const TimetablePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('课表'),
-      ),
-      body: const Center(
-        child: Text('课表功能开发中...'),
-      ),
-    );
+    return const AcademicPage();
   }
 }

@@ -54,6 +54,8 @@ dependencies:
     path: packages/features/feature_network_service
   feature_campus_info:
     path: packages/features/feature_campus_info
+  feature_academic:
+    path: packages/features/feature_academic
 
   # UI组件
   cupertino_icons: ^1.0.6
