@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:feature_campus_info/feature_campus_info.dart';
 
-/// 社区页面
+/// 社区/资讯页面 - 集成 feature_campus_info
 class CommunityPage extends StatelessWidget {
   const CommunityPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('社区'),
-      ),
-      body: const Center(
-        child: Text('社区功能开发中...'),
-      ),
-    );
+    return const CampusInfoPage();
   }
 }

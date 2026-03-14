@@ -50,6 +50,10 @@ dependencies:
   # Feature packages
   feature_auth:
     path: packages/features/feature_auth
+  feature_network_service:
+    path: packages/features/feature_network_service
+  feature_campus_info:
+    path: packages/features/feature_campus_info
 
   # UI组件
   cupertino_icons: ^1.0.6
