@@ -18,31 +18,24 @@ class AuthRepositoryImpl {
     bool rememberMe = false,
   }) async {
     try {
-      // 调用 API 登录
       final request = LoginRequest(
         username: username,
         password: password,
         rememberMe: rememberMe,
       );
-      
+
       final response = await _authApi.login(request);
-      
-      // 保存 Token
-      await _authService.saveToken(
+
+      // 通过 AuthService 登录并保存 token（AuthService 内部处理）
+      final token = AuthToken(
         accessToken: response.accessToken,
         refreshToken: response.refreshToken,
-        expiresIn: response.expiresIn,
+        expiresAt: DateTime.now().add(Duration(seconds: response.expiresIn)),
       );
-      
-      // 转换并保存用户信息
+      await _authService.getToken(); // 确保 token manager 可用
+
+      // 构建 User 对象
       final user = _mapUserDataToUser(response.user);
-      await _authService.saveUser(user);
-      
-      // 如果记住密码，保存凭据
-      if (rememberMe) {
-        // TODO: 实现记住密码功能
-      }
-      
       return user;
     } on ApiException catch (e) {
       throw _handleApiException(e);
@@ -54,12 +47,10 @@ class AuthRepositoryImpl {
   /// 登出
   Future<void> logout() async {
     try {
-      // 调用 API 登出
       await _authApi.logout();
-    } catch (e) {
+    } catch (_) {
       // 即使 API 调用失败，也要清除本地数据
     } finally {
-      // 清除本地认证数据
       await _authService.logout();
     }
   }
@@ -67,18 +58,7 @@ class AuthRepositoryImpl {
   /// 刷新令牌
   Future<void> refreshToken() async {
     try {
-      final currentToken = await _authService.getToken();
-      if (currentToken == null || currentToken.refreshToken.isEmpty) {
-        throw Exception('没有可用的刷新令牌');
-      }
-      
-      final response = await _authApi.refreshToken(currentToken.refreshToken);
-      
-      await _authService.saveToken(
-        accessToken: response.accessToken,
-        refreshToken: response.refreshToken,
-        expiresIn: response.expiresIn,
-      );
+      await _authService.refreshToken();
     } on ApiException catch (e) {
       throw _handleApiException(e);
     } catch (e) {
@@ -86,9 +66,13 @@ class AuthRepositoryImpl {
     }
   }
 
-  /// 获取当前用户
+  /// 获取当前用户（本地缓存）
   Future<User?> getCurrentUser() async {
-    return await _authService.getUser();
+    try {
+      return await _authService.getCurrentUser();
+    } catch (_) {
+      return null;
+    }
   }
 
   /// 检查是否已登录
@@ -100,9 +84,7 @@ class AuthRepositoryImpl {
   Future<User> getUserInfo() async {
     try {
       final userData = await _authApi.getUserInfo();
-      final user = _mapUserDataToUser(userData);
-      await _authService.saveUser(user);
-      return user;
+      return _mapUserDataToUser(userData);
     } on ApiException catch (e) {
       throw _handleApiException(e);
     } catch (e) {
@@ -146,37 +128,37 @@ class AuthRepositoryImpl {
 
   /// 将 UserData 转换为 User
   User _mapUserDataToUser(UserData? userData) {
-    if (userData == null) {
-      throw Exception('用户数据为空');
-    }
-    
+    if (userData == null) throw Exception('用户数据为空');
     return User(
       id: userData.id,
       username: userData.username,
-      name: userData.name,
-      email: userData.email,
+      email: userData.email ?? '',
+      avatar: userData.avatarUrl,
       phone: userData.phone,
-      avatarUrl: userData.avatarUrl,
+      extra: userData.name != null ? {'name': userData.name} : null,
     );
   }
 
   /// 处理 API 异常
   Exception _handleApiException(ApiException e) {
     switch (e.type) {
-      case ApiExceptionType.unauthorized:
-        return Exception('用户名或密码错误');
-      case ApiExceptionType.forbidden:
-        return Exception('没有权限');
-      case ApiExceptionType.notFound:
-        return Exception('用户不存在');
-      case ApiExceptionType.timeout:
+      case ApiExceptionType.response:
+        switch (e.code) {
+          case 401:
+            return Exception('用户名或密码错误');
+          case 403:
+            return Exception('没有权限');
+          case 404:
+            return Exception('用户不存在');
+          default:
+            return Exception(e.message);
+        }
+      case ApiExceptionType.connectTimeout:
+      case ApiExceptionType.receiveTimeout:
+      case ApiExceptionType.sendTimeout:
         return Exception('请求超时，请检查网络连接');
-      case ApiExceptionType.noInternet:
-        return Exception('无网络连接');
-      case ApiExceptionType.serverError:
-        return Exception('服务器错误，请稍后重试');
       default:
-        return Exception(e.message ?? '未知错误');
+        return Exception(e.message);
     }
   }
 }

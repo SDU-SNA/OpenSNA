@@ -7,10 +7,10 @@ part 'login_request.g.dart';
 class LoginRequest {
   /// 用户名（学号/工号）
   final String username;
-  
+
   /// 密码
   final String password;
-  
+
   /// 是否记住密码
   @JsonKey(name: 'remember_me')
   final bool rememberMe;

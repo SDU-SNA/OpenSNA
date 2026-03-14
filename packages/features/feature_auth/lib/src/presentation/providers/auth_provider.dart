@@ -39,9 +39,9 @@ class AuthState {
 final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient(
     config: NetworkConfig(
-      baseUrl: 'https://api.sdu.edu.cn', // TODO: 配置实际的 API 地址
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
+      baseUrl: 'https://api.sdu.edu.cn',
+      connectTimeout: 30000,
+      receiveTimeout: 30000,
     ),
   );
 });
@@ -54,7 +54,8 @@ final authApiProvider = Provider<AuthApi>((ref) {
 
 /// Auth Service Provider
 final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
+  final apiClient = ref.watch(apiClientProvider);
+  return AuthService(apiClient: apiClient);
 });
 
 /// Auth Repository Provider
@@ -172,6 +173,6 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final loginUseCase = ref.watch(loginUseCaseProvider);
   final logoutUseCase = ref.watch(logoutUseCaseProvider);
   final repository = ref.watch(authRepositoryProvider);
-  
+
   return AuthNotifier(loginUseCase, logoutUseCase, repository);
 });

@@ -7,12 +7,15 @@ class LoginForm extends StatefulWidget {
   final VoidCallback? onLogin;
   final VoidCallback? onForgotPassword;
   final bool isLoading;
+  final void Function(String username, String password, bool rememberMe)?
+      onChanged;
 
   const LoginForm({
     super.key,
     this.onLogin,
     this.onForgotPassword,
     this.isLoading = false,
+    this.onChanged,
   });
 
   @override
@@ -35,6 +38,11 @@ class _LoginFormState extends State<LoginForm> {
 
   void _handleLogin() {
     if (_formKey.currentState?.validate() ?? false) {
+      widget.onChanged?.call(
+        _usernameController.text.trim(),
+        _passwordController.text,
+        _rememberMe,
+      );
       widget.onLogin?.call();
     }
   }
@@ -45,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children:  [
+        children: [
           // 用户名输入框
           TextFormField(
             controller: _usernameController,
@@ -66,9 +74,9 @@ class _LoginFormState extends State<LoginForm> {
               return '请输入学号或工号';
             },
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // 密码输入框
           TextFormField(
             controller: _passwordController,
@@ -99,9 +107,9 @@ class _LoginFormState extends State<LoginForm> {
               return '请输入密码';
             },
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           // 记住密码和忘记密码
           Row(
             children: [
@@ -123,9 +131,9 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // 登录按钮
           SizedBox(
             height: 50,

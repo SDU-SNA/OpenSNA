@@ -17,11 +17,11 @@ class LoginUseCase {
     if (username.isEmpty) {
       throw Exception('请输入用户名');
     }
-    
+
     if (password.isEmpty) {
       throw Exception('请输入密码');
     }
-    
+
     // 执行登录
     return await _repository.login(
       username: username,

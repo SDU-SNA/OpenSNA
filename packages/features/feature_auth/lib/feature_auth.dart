@@ -1,6 +1,9 @@
 /// Authentication feature package
 library feature_auth;
 
+// Re-export core_auth types
+export 'package:core_auth/core_auth.dart' show User, AuthToken, AuthService;
+
 // Data
 export 'src/data/datasources/auth_api.dart';
 export 'src/data/models/login_request.dart';

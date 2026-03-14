@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:core_ui/core_ui.dart';
 import '../widgets/login_form.dart';
 import '../providers/auth_provider.dart';
 
@@ -13,24 +12,25 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final _formKey = GlobalKey<_LoginFormState>();
+  // 通过 ValueNotifier 从 LoginForm 获取数据
+  String _username = '';
+  String _password = '';
+  bool _rememberMe = false;
 
   Future<void> _handleLogin() async {
-    final formState = _formKey.currentState;
-    if (formState == null) return;
+    if (_username.isEmpty || _password.isEmpty) return;
 
     try {
       await ref.read(authProvider.notifier).login(
-            username: formState.username,
-            password: formState.password,
-            rememberMe: formState.rememberMe,
+            username: _username,
+            password: _password,
+            rememberMe: _rememberMe,
           );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('登录成功')),
         );
-        // TODO: 导航到首页
         Navigator.pushReplacementNamed(context, '/');
       }
     } catch (e) {
@@ -72,16 +72,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Logo
                 Icon(
                   Icons.school,
                   size: 80,
                   color: Theme.of(context).primaryColor,
                 ),
-                
                 const SizedBox(height: 24),
-                
-                // 标题
                 Text(
                   '山大网管会',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -89,9 +85,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                   textAlign: TextAlign.center,
                 ),
-                
                 const SizedBox(height: 8),
-                
                 Text(
                   'SDU Network Management Association',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -99,20 +93,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                   textAlign: TextAlign.center,
                 ),
-                
                 const SizedBox(height: 48),
-                
-                // 登录表单
                 LoginForm(
-                  key: _formKey,
                   isLoading: isLoading,
                   onLogin: _handleLogin,
                   onForgotPassword: _handleForgotPassword,
+                  onChanged: (username, password, rememberMe) {
+                    _username = username;
+                    _password = password;
+                    _rememberMe = rememberMe;
+                  },
                 ),
-                
                 const SizedBox(height: 24),
-                
-                // 其他登录方式
                 Row(
                   children: [
                     const Expanded(child: Divider()),
@@ -128,17 +120,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     const Expanded(child: Divider()),
                   ],
                 ),
-                
                 const SizedBox(height: 24),
-                
-                // 统一身份认证按钮
                 OutlinedButton.icon(
-                  onPressed: isLoading ? null : () {
-                    // TODO: 实现统一身份认证登录
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('统一身份认证功能开发中')),
-                    );
-                  },
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('统一身份认证功能开发中')),
+                          );
+                        },
                   icon: const Icon(Icons.verified_user),
                   label: const Text('统一身份认证登录'),
                   style: OutlinedButton.styleFrom(
@@ -148,21 +138,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                 ),
-                
                 const SizedBox(height: 32),
-                
-                // 注册提示
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('还没有账号？'),
                     TextButton(
-                      onPressed: isLoading ? null : () {
-                        // TODO: 导航到注册页面
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('注册功能开发中')),
-                        );
-                      },
+                      onPressed: isLoading
+                          ? null
+                          : () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('注册功能开发中')),
+                              );
+                            },
                       child: const Text('立即注册'),
                     ),
                   ],
